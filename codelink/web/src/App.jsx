@@ -1,19 +1,23 @@
-import Editor from "./components/Editor";
-import Term from "./components/Terminal";
+import { Outlet, Link, useLocation } from "react-router-dom";
 
 export default function App() {
   return (
-    <div className="p-4 grid gap-4 md:grid-cols-2 h-screen box-border">
-      <div className="flex flex-col">
-        <h1 className="text-xl font-bold mb-2">CodeLink — Editor</h1>
-          <div className="flex-1 border rounded-lg overflow-hidden">
-            <Editor />
-          </div>
-      </div>
-      <div className="flex flex-col">
-        <h2 className="text-lg font-semibold mb-2">Terminal</h2>
-        <Term />
-      </div>
+    <div className="min-h-screen bg-gray-50">
+      <header className="border-b bg-white">
+        <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
+          <Link to="/" className="font-bold">CodeLink</Link>
+          <nav className="space-x-4">
+            <Link to="/" className="hover:underline">Home</Link>
+            <Link to="/app" className="hover:underline">App</Link>
+          </nav>
+        </div>
+      </header>
+
+      <main className={`p-6 ${location.pathname === '/app' ? 'max-w-none' : 'max-w-6xl mx-auto'}`}>
+        <Outlet /> {/* pages render here */}
+      </main>
+
+      <footer className="text-center text-sm text-gray-500 p-6">CodeLink</footer>
     </div>
   );
 }
