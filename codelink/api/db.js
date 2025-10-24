@@ -10,18 +10,16 @@ sqlite3.verbose();
 const db = new sqlite3.Database(dbPath);
 
 
-db.serialize(() => {
   db.run(`
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       username TEXT UNIQUE NOT NULL,
-      password TEXT NOT NULL,            -- NOTE: plain text (hash later)
+      password TEXT NOT NULL,
       firstName TEXT NOT NULL,
       lastName TEXT NOT NULL,
       team TEXT NOT NULL,
       createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `);
-});
-
+db.run('CREATE TABLE IF NOT EXISTS projects (id INTEGER PRIMARY KEY AUTOINCREMENT,name	TEXT NOT NULL,user1	INTEGER, user2 INTEGER, user3 INTEGER, user4 INTEGER, user5 INTEGER, user6 INTEGER, user7 INTEGER, user8 INTEGER, user9 INTEGER, user10	INTEGER, program BLOB, createdAt	DATETIME DEFAULT CURRENT_TIMESTAMP);');
 export default db;
