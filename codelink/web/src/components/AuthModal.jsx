@@ -30,7 +30,7 @@ export default function AuthModal({ open, onClose, onSuccess }) {
         body: JSON.stringify(payload),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data?.error || "Request failed");
+        if (!res.ok) throw new Error(data?.error || "Request failed");
 
       localStorage.setItem("user", JSON.stringify(data.user));
       onSuccess?.(data.user);
