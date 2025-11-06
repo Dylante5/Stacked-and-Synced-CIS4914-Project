@@ -8,7 +8,7 @@ export default function Home() {
 
   useEffect(() => {
     const u = localStorage.getItem("user");
-    if (u) navigate("/app");
+    if (u) navigate("/project");
   }, [navigate]);
 
   return (
@@ -27,7 +27,7 @@ export default function Home() {
       <AuthModal
         open={open}
         onClose={() => setOpen(false)}
-        onSuccess={() => navigate("/app")}
+        onSuccess={() => navigate("/project")}
       />
     </section>
   );

@@ -94,7 +94,7 @@ export default function App() {
 
       <main
         className={`p-6 ${
-          location.pathname === "/app" ? "max-w-none" : "max-w-6xl mx-auto"
+          location.pathname === "/project" ? "max-w-none" : "max-w-6xl mx-auto"
         }`}
       >
         <Outlet />
@@ -111,7 +111,7 @@ export default function App() {
           onSuccess={(u) => {
             setUser(u);
             setShowAuth(false);
-            navigate("/app");
+            navigate("/project");
           }}
         />
       )}

@@ -1,21 +1,23 @@
-export function CreateProject(db, name, id) {
+import db from "../db.js";
+
+export function CreateProject(name, id) {
     db.run('INSERT INTO projects (name, user1) VALUES (?, ?)', [name, id]);
 }
 
-export function DeleteProject(db, id) {
+export function DeleteProject(id) {
     db.run('DELETE FROM projects WHERE id = ?', [id]);
 }
 
-export function GetUsersProjects(db, id) {
+export function GetUsersProjects(id) {
     return db.get('SELECT id FROM projects WHERE user1 = ? OR user2 = ? OR user3 = ? OR user4 = ? OR user5 = ? OR user6 = ? OR user7 = ? OR user8 = ? OR user9 = ? OR user10 = ?',
         [id, id, id, id, id, id, id, id, id, id]);
 }
 
-export function GetProjectInfo(db, id) {
+export function GetProjectInfo(id) {
     return db.get('SELECT * FROM projects WHERE id = ?', [id]);
 }
 
-export function AddProjectUser(db, user_id, project_id) {
+export function AddProjectUser(user_id, project_id) {
     var id = project_id;
     var name = user_id;
     if (db.get(`SELECT user1 FROM projects where id = ${id}`) = null) {
@@ -53,7 +55,7 @@ export function AddProjectUser(db, user_id, project_id) {
     }
 }
 
-export function RemoveProjectUser(db, user_id, project_id) {
+export function RemoveProjectUser(user_id, project_id) {
     var id = project_id;
     var name = user_id;
     if (db.get(`SELECT user1 FROM projects where id = ${id}`) = name) {
@@ -104,6 +106,6 @@ export function RemoveProjectUser(db, user_id, project_id) {
     }
 }
 
-export function DeleteUser(db, id) {
+export function DeleteUser(id) {
     db.run('DELETE FROM users WHERE id = ?', [id]);
 }

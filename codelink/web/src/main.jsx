@@ -5,6 +5,7 @@ import "./index.css";
 import App from "./App.jsx";
 import Home from "./pages/Home.jsx";
 import EditorPage from "./pages/EditorPage.jsx";
+import ProjectPage from "./pages/ProjectPage.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -12,7 +13,8 @@ createRoot(document.getElementById("root")).render(
       <Routes>
         <Route element={<App />}>
           <Route path="/" element={<Home />} />
-          <Route path="/app" element={<EditorPage />} />
+                    <Route path="/app" element={<EditorPage />} />
+                    <Route path="/project" element={<ProjectPage />}/>
         </Route>
       </Routes>
     </BrowserRouter>
