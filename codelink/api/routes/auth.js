@@ -40,7 +40,7 @@ router.post("/login", (req, res) => {
     if (err) return res.status(500).json({ error: "DB error" });
       if (!row || Buffer.from(CryptoJS.AES.decrypt(row.password, "idk").toString(), 'hex').toString() !== password) return res.status(401).json({ error: "Invalid credentials"});
     const { password: _, ...safe } = row;
-    res.json({ user: safe });
+    res.send({ user: safe });
   });
 });
 
