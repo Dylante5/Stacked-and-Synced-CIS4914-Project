@@ -9,7 +9,6 @@ export default function AuthModal({ open, onClose, onSuccess }) {
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [team, setTeam] = useState("");
 
   if (!open) return null;
 
@@ -22,7 +21,7 @@ export default function AuthModal({ open, onClose, onSuccess }) {
       const payload =
         mode === "login"
           ? { username, password }
-          : { username, password, firstName, lastName, team };
+          : { username, password, firstName, lastName };
 
       const res = await fetch(url, {
         method: "POST",
@@ -121,15 +120,6 @@ export default function AuthModal({ open, onClose, onSuccess }) {
                     required
                   />
                 </div>
-              </div>
-              <div>
-                <label className={labelCls}>Team</label>
-                <input
-                  className={inputCls}
-                  value={team}
-                  onChange={(e) => setTeam(e.target.value)}
-                  required
-                />
               </div>
             </>
           )}

@@ -11,14 +11,14 @@ const strip = (u) => {
 
 // register
 router.post("/register", (req, res) => {
-  const { username, password, firstName, lastName, team } = req.body || {};
-  if (!username || !password || !firstName || !lastName || !team) {
+  const { username, password, firstName, lastName } = req.body || {};
+  if (!username || !password || !firstName || !lastName ) {
     return res.status(400).json({ error: "Missing required fields" });
   }
   const stmt = db.prepare(
-    `INSERT INTO users (username, password, firstName, lastName, team) VALUES (?, ?, ?, ?, ?)`
+    `INSERT INTO users (username, password, firstName, lastName) VALUES (?, ?, ?, ?)`
   );
-  stmt.run(username, CryptoJS.AES.encrypt(password, "idk").toString(), firstName, lastName, team, function (err) {
+  stmt.run(username, CryptoJS.AES.encrypt(password, "idk").toString(), firstName, lastName, function (err) {
     if (err) {
       if (String(err).includes("UNIQUE")) {
         return res.status(409).json({ error: "Username already taken" });
