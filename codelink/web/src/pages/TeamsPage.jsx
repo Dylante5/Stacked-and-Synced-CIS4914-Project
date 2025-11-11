@@ -8,6 +8,8 @@ export default function TeamsPage() {
   const [mine, setMine] = useState([]);
   const [error, setError] = useState("");
 
+  const [membersByTeam, setMembersByTeam] = useState({});
+  
   const user = JSON.parse(localStorage.getItem("user") || "null");
 
   const load = async () => {
@@ -40,7 +42,7 @@ export default function TeamsPage() {
       const res = await fetch("/api/teams", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, description }),
+        body: JSON.stringify({ name, description, userId: user.id }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || "Create failed");
@@ -67,6 +69,73 @@ export default function TeamsPage() {
       alert(e.message);
     }
   };
+
+  const toggleMembers = async (teamId) => {
+    setMembersByTeam((prev) => {
+      const cur = prev[teamId] || { open: false, loading: false, members: [] };
+      if (cur.members && cur.members.length > 0 && !cur.loading) {
+        return { ...prev, [teamId]: { ...cur, open: !cur.open } };
+      }
+      return { ...prev, [teamId]: { ...cur, open: true, loading: true, error: "" } };
+    });
+
+    const cur = membersByTeam[teamId];
+    if (cur && cur.members?.length) return;
+
+    try {
+      const res = await fetch(`/api/teams/${teamId}/members`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "Failed to load members");
+
+      setMembersByTeam((prev) => ({
+        ...prev,
+        [teamId]: {
+          open: true,
+          loading: false,
+          error: "",
+          members: data.members || [],
+        },
+      }));
+    } catch (e) {
+      setMembersByTeam((prev) => ({
+        ...prev,
+        [teamId]: {
+          open: true,
+          loading: false,
+          error: e.message || "Failed to load members",
+          members: [],
+        },
+      }));
+    }
+  };
+  
+  const onDeleteTeam = async (team) => {
+	  if (String(team.role).toLowerCase() !== "owner") {
+		alert("Only the Owner can delete this team.");
+		return;
+	  }
+	  if (!confirm(`Delete team "${team.name}"? This cannot be undone.`)) return;
+
+	  try {
+		const res = await fetch(`/api/teams/${team.id}`, {
+		  method: "DELETE",
+		  headers: { "Content-Type": "application/json" },
+		  body: JSON.stringify({ userId: user.id }),  // body (backend also accepts ?userId=)
+		});
+		const ct = res.headers.get("content-type") || "";
+		const payload = ct.includes("application/json") ? await res.json() : { error: await res.text() };
+		if (!res.ok) throw new Error(payload?.error || "Delete failed");
+
+		setMine((prev) => prev.filter((x) => x.id !== team.id));
+		setTeams((prev) => prev.filter((x) => x.id !== team.id));
+		setMembersByTeam((prev) => { const copy = { ...prev }; delete copy[team.id]; return copy; });
+		alert(`Deleted team "${team.name}".`);
+	  } catch (e) {
+		alert(e.message || "Delete failed");
+	  }
+	};
+
+
 
   return (
     <div className="space-y-8">
@@ -118,18 +187,84 @@ export default function TeamsPage() {
       </section>
 
       {user && (
-        <section className="app-surface p-4 rounded-xl">
-          <h2 className="text-2xl font-bold" style={{ color: "#646cff" }}>My Teams</h2>
-          <ul className="mt-3 space-y-2">
-            {mine.map((t) => (
-              <li key={t.id} className="rounded-lg bg-white p-3 border">
-                <div className="font-semibold" style={{ color: "#646cff" }}>{t.name}</div>
-                <div className="text-sm text-gray-600">{t.description}</div>
-              </li>
-            ))}
-            {mine.length === 0 && <p className="text-sm text-gray-600">You haven't joined any teams yet.</p>}
-          </ul>
-        </section>
+		<section className="app-surface p-4 rounded-xl">
+		  <h2 className="text-2xl font-bold" style={{ color: "#646cff" }}>
+			My Teams
+		  </h2>
+		  <ul className="mt-3 space-y-2">
+			{mine.map((t) => {
+			  const entry = membersByTeam[t.id] || {};
+			  return (
+				<li key={t.id} className="rounded-lg bg-white p-3 border">
+				  <div className="flex items-start justify-between gap-3">
+					<div>
+					  <div className="font-semibold" style={{ color: "#646cff" }}>
+						{t.name}
+					  </div>
+					  <div className="text-sm text-gray-600">{t.description}</div>
+					</div>
+					<button
+					  onClick={() => toggleMembers(t.id)}
+					  className="rounded-md border px-3 py-1 text-sm"
+					  style={{ borderColor: "#646cff", color: "#646cff" }}
+					>
+					  {entry.open ? "Hide Members" : "View Members"}
+					</button>
+					
+					<button
+					  onClick={() => onDeleteTeam(t)}
+					  disabled={String(t.role).toLowerCase() !== "owner"}
+					  className="rounded-md border px-3 py-1 text-sm disabled:opacity-50"
+					  style={{ borderColor: "#ef4444", color: "#ef4444" }}
+					  title={String(t.role).toLowerCase() !== "owner" ? "Only Owner can delete" : "Delete team"}
+					> Delete </button>
+				  </div>
+				  {entry.open && (
+					<div className="mt-3">
+					  {entry.loading && (
+						<div className="text-sm text-gray-500">Loading members…</div>
+					  )}
+					  {entry.error && (
+						<div className="text-sm text-red-600">{entry.error}</div>
+					  )}
+					  {!entry.loading && !entry.error && (
+						<>
+						  {entry.members?.length ? (
+							<ul className="mt-2 space-y-1">
+							  {entry.members.map((m) => (
+								<li key={m.id} className="text-sm">
+								  <span className="font-medium">{m.username}</span>
+								  {(m.firstname || m.lastname) && (
+									<span className="text-gray-600">
+									  {" "}
+									  — {m.firstname || ""} {m.lastname || ""}
+									</span>
+								  )}
+								  {m.role && (
+									<span className="text-gray-500"> ({m.role})</span>
+								  )}
+								</li>
+							  ))}
+							</ul>
+						  ) : (
+							<div className="text-sm text-gray-500">
+							  No members yet.
+							</div>
+						  )}
+						</>
+					  )}
+					</div>
+				  )}
+				</li>
+			  );
+			})}
+			{mine.length === 0 && (
+			  <p className="text-sm text-gray-600">
+				You haven't joined any teams yet.
+			  </p>
+			)}
+		  </ul>
+		</section>
       )}
     </div>
   );
