@@ -139,7 +139,7 @@ export default function TeamsPage() {
 
   return (
     <div className="space-y-8">
-      <section className="app-surface p-4 rounded-xl">
+      <section className="app-surface p-4 rounded-xl !bg-white">
         <h2 className="text-2xl font-bold" style={{ color: "#646cff" }}>Search Teams</h2>
         <div className="mt-3 flex gap-2">
           <input
@@ -154,7 +154,7 @@ export default function TeamsPage() {
         </div>
         <ul className="mt-4 space-y-2">
           {teams.map((t) => (
-            <li key={t.id} className="flex items-center justify-between rounded-lg bg-white p-3 border">
+            <li key={t.id} className="flex items-center justify-between rounded-lg p-3 border">
               <div>
                 <div className="font-semibold" style={{ color: "#646cff" }}>{t.name}</div>
                 <div className="text-sm text-gray-600">{t.description}</div>
@@ -168,7 +168,7 @@ export default function TeamsPage() {
         </ul>
       </section>
 
-      <section className="app-surface p-4 rounded-xl">
+      <section className="app-surface p-4 rounded-xl !bg-white">
         <h2 className="text-2xl font-bold" style={{ color: "#646cff" }}>Create a Team</h2>
         <form onSubmit={createTeam} className="mt-3 space-y-3">
           <div>
@@ -187,7 +187,7 @@ export default function TeamsPage() {
       </section>
 
       {user && (
-		<section className="app-surface p-4 rounded-xl">
+		<section className="app-surface p-4 rounded-xl !bg-white">
 		  <h2 className="text-2xl font-bold" style={{ color: "#646cff" }}>
 			My Teams
 		  </h2>
