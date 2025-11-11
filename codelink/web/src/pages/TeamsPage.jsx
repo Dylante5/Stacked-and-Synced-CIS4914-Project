@@ -110,30 +110,30 @@ export default function TeamsPage() {
   };
   
   const onDeleteTeam = async (team) => {
-	  if (String(team.role).toLowerCase() !== "owner") {
-		alert("Only the Owner can delete this team.");
-		return;
-	  }
-	  if (!confirm(`Delete team "${team.name}"? This cannot be undone.`)) return;
+  if (String(team.role).toLowerCase() !== "owner") {
+    alert("Only the Owner can delete this team.");
+    return;
+  }
+  if (!confirm(`Delete team "${team.name}"? This cannot be undone.`)) return;
 
-	  try {
-		const res = await fetch(`/api/teams/${team.id}`, {
-		  method: "DELETE",
-		  headers: { "Content-Type": "application/json" },
-		  body: JSON.stringify({ userId: user.id }),  // body (backend also accepts ?userId=)
-		});
-		const ct = res.headers.get("content-type") || "";
-		const payload = ct.includes("application/json") ? await res.json() : { error: await res.text() };
-		if (!res.ok) throw new Error(payload?.error || "Delete failed");
+  try {
+    const res = await fetch(`/api/teams/${team.id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: user.id }),  // body (backend also accepts ?userId=)
+    });
+    const ct = res.headers.get("content-type") || "";
+    const payload = ct.includes("application/json") ? await res.json() : { error: await res.text() };
+    if (!res.ok) throw new Error(payload?.error || "Delete failed");
 
-		setMine((prev) => prev.filter((x) => x.id !== team.id));
-		setTeams((prev) => prev.filter((x) => x.id !== team.id));
-		setMembersByTeam((prev) => { const copy = { ...prev }; delete copy[team.id]; return copy; });
-		alert(`Deleted team "${team.name}".`);
-	  } catch (e) {
-		alert(e.message || "Delete failed");
-	  }
-	};
+    setMine((prev) => prev.filter((x) => x.id !== team.id));
+    setTeams((prev) => prev.filter((x) => x.id !== team.id));
+    setMembersByTeam((prev) => { const copy = { ...prev }; delete copy[team.id]; return copy; });
+    alert(`Deleted team "${team.name}".`);
+  } catch (e) {
+    alert(e.message || "Delete failed");
+};
+  }
 
 
 
@@ -196,28 +196,30 @@ export default function TeamsPage() {
 			  const entry = membersByTeam[t.id] || {};
 			  return (
 				<li key={t.id} className="rounded-lg bg-white p-3 border">
-				  <div className="flex items-start justify-between gap-3">
+				  <div className="flex items-center justify-between gap-3">
 					<div>
 					  <div className="font-semibold" style={{ color: "#646cff" }}>
 						{t.name}
 					  </div>
 					  <div className="text-sm text-gray-600">{t.description}</div>
 					</div>
-					<button
-					  onClick={() => toggleMembers(t.id)}
-					  className="rounded-md border px-3 py-1 text-sm"
-					  style={{ borderColor: "#646cff", color: "#646cff" }}
-					>
-					  {entry.open ? "Hide Members" : "View Members"}
-					</button>
-					
-					<button
-					  onClick={() => onDeleteTeam(t)}
-					  disabled={String(t.role).toLowerCase() !== "owner"}
-					  className="rounded-md border px-3 py-1 text-sm disabled:opacity-50"
-					  style={{ borderColor: "#ef4444", color: "#ef4444" }}
-					  title={String(t.role).toLowerCase() !== "owner" ? "Only Owner can delete" : "Delete team"}
-					> Delete </button>
+					<div className="flex items-center space-x-2">
+						<button
+						  onClick={() => toggleMembers(t.id)}
+						  className="rounded-md border px-3 py-1 text-sm"
+						  style={{ borderColor: "#646cff", color: "#646cff" }}
+						>
+						  {entry.open ? "Hide Members" : "View Members"}
+						</button>
+						
+						<button
+						  onClick={() => onDeleteTeam(t)}
+						  disabled={String(t.role).toLowerCase() !== "owner"}
+						  className="rounded-md border px-3 py-1 text-sm disabled:opacity-50"
+						  style={{ borderColor: "#ef4444", color: "#ef4444" }}
+						  title={String(t.role).toLowerCase() !== "owner" ? "Only Owner can delete" : "Delete team"}
+						> Delete </button>
+					</div>
 				  </div>
 				  {entry.open && (
 					<div className="mt-3">
