@@ -2,36 +2,70 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Home() {
-    const [name, setName] = useState("");
-    const [userid, setUserid] = useState("");
-    const [err, setErr] = useState("");
+	const navigate = useNavigate();
+	const [teamId, setTeamId] = useState("");
+	const [err, setErr] = useState("");
 
-    const navigate = useNavigate();
-    const onCreate = async (e) => {
-        e.preventDefault();
-        setErr("");
-        setName(prompt("Input New Project Name"));
-        setUserid(localStorage.getItem("id"));
-        try {
-            const url = "/api/projectcreation/create";
-            const payload =
-                {name, userid}
+	const rawUser = localStorage.getItem("user");
+	let user = null;
+	try {
+	  user = rawUser ? JSON.parse(rawUser) : null;
+	} catch {
+	  user = null;
+	}
+	
+	useEffect(() => {
+	  (async () => {
+		if (!user?.id) {
+		  setErr("No user detected. Please log in again.");
+		  return;
+		}
 
-            const res = await fetch(url, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
-            });
+		try {
+		  const res = await fetch(`/api/teams/mine?userId=${user.id}`);
+		  const data = await res.json();
+		  if (!res.ok) throw new Error(data?.error || "Failed to load teams");
 
-            const data = await res.json();
-            if (!res.ok) throw new Error(data?.error || "Request failed");
+		  const teams = data?.teams || [];
+		  if (teams.length > 0) {
+			setTeamId(String(teams[0].id));
+		  } else {
+			setErr("You are not in a team yet.");
+		  }
+		} catch (e) {
+		  setErr(e.message || "Failed to load teams");
+		}
+	  })();
+	}, []);
+	
+	const onCreate = async (e) => {
+		e.preventDefault();
+		setErr("");
 
-            localStorage.setItem("user", JSON.stringify(data.user));
-        } catch (e2) {
-            setErr(e2.message);
-        } 
-      navigate("/app");
-    };
+		if (!teamId) {
+		  alert("No team detected. Join a team first.");
+		  return;
+		}
+		const projectName = prompt("Input New Project Name");
+		if (!projectName) return;
+
+		try {
+			const res = await fetch("/api/projectcreation/create", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ name: projectName, teamId: Number(teamId) }),
+			});
+			const data = await res.json();
+			if (!res.ok) throw new Error(data?.error || "Request failed");
+
+			
+			localStorage.setItem("activeTeamId", String(teamId));
+			navigate(`/app?projectId=${data.project.id}`);
+		} catch (e2) {
+		setErr(e2.message || "Create failed");
+		}
+	};
+	
     return (
         <section className="grid grid-cols-4 gap-4">
             <div className="col-span-4">
@@ -48,6 +82,9 @@ export default function Home() {
                     cursor: "pointer",
                     height: 140
                 }}>Create New Project</button>
+			{err && (
+				<div className="col-span-4 text-red-600 text-sm">{err}</div>
+			)}
         </section>
     );
 }

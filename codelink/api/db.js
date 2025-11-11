@@ -21,7 +21,16 @@ CREATE TABLE IF NOT EXISTS users (
 )
 `);
   
-db.run('CREATE TABLE IF NOT EXISTS projects (id INTEGER PRIMARY KEY AUTOINCREMENT,name	TEXT NOT NULL,user1	INTEGER, user2 INTEGER, user3 INTEGER, user4 INTEGER, user5 INTEGER, user6 INTEGER, user7 INTEGER, user8 INTEGER, user9 INTEGER, user10	INTEGER, program BLOB, createdAt	DATETIME DEFAULT CURRENT_TIMESTAMP);');
+db.run(`
+  CREATE TABLE IF NOT EXISTS projects (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    team_id INTEGER NOT NULL,
+    program BLOB,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(team_id) REFERENCES teams(id) ON DELETE CASCADE
+  )
+`);
 
 db.serialize(() => {
   db.run(`

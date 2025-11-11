@@ -5,14 +5,14 @@ const router = Router();
 
 // register
 router.post("/create", (req, res) => {
-    const {name, userid} = req.body || {};
-    if (!name || !userid) {
+    const {name, teamId} = req.body || {};
+    if (!name || !teamId) {
         return res.status(400).json({ error: "Missing required fields" });
     }
     const stmt = db.prepare(
-        `INSERT INTO projects (name, user1, program) VALUES (?, ?, "")`
+        `INSERT INTO projects (name, team_id, program) VALUES (?, ?, "")`
     );
-    stmt.run(name, userid, function (err) {
+    stmt.run(name, teamId, function (err) {
         if (err) {
             return res.status(500).json({ error: "DB error" });
         }
@@ -23,14 +23,44 @@ router.post("/create", (req, res) => {
     });
 });
 
-// getting user projects
-router.get("/gather", (req, res) => {
-    const { id } = req.body || {};
-    if (!id) return res.status(400).json({ error: "Missing id" });
-    db.get(`SELECT id FROM projects WHERE user1 = ? OR user2 = ? OR user3 = ? OR user4 = ? OR user5 = ? OR user6 = ? OR user7 = ? OR user8 = ? OR user9 = ? OR user10 = ?`, [id, id, id, id, id, id, id, id, id, id], (err, row) => {
-        if (err) return res.status(500).json({ error: "DB error" });
-        res.send({ user: safe });
-    });
+// getting user projects PER TEAM
+router.get("/by-team/:teamId", (req, res) => {
+  const { teamId } = req.params;
+  if (!teamId) return res.status(400).json({ error: "Missing teamId" });
+
+  db.all(
+    `SELECT * FROM projects WHERE team_id = ? ORDER BY createdAt DESC`,
+    [teamId],
+    (err, rows) => {
+      if (err) {
+        console.error("DB query error:", err);
+        return res.status(500).json({ error: "Database query error" });
+      }
+      res.status(200).json({ projects: rows });
+    }
+  );
+});
+
+// getting user projects PER user
+router.get("/mine/:userId", (req, res) => {
+  const { userId } = req.params;
+  if (!userId) return res.status(400).json({ error: "Missing userId" });
+
+  db.all(
+    `SELECT *
+     FROM projects 
+     JOIN team_members ON team_id = projects.team_id
+     WHERE team_members.user_id = ?
+     ORDER BY projects.createdAt DESC`,
+    [userId],
+    (err, rows) => {
+      if (err) {
+        console.error("DB query error:", err);
+        return res.status(500).json({ error: "Database query error" });
+      }
+      res.status(200).json({ projects: rows });
+    }
+  );
 });
 
 export default router;

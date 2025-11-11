@@ -5,6 +5,7 @@ import { Server } from "socket.io";
 import dotenv from "dotenv";
 import { spawn } from '@lydell/node-pty';
 import authRoutes from "./routes/auth.js";
+import projectcreationRoutes from "./routes/projectcreation.js";
 import teamsRoutes from "./routes/teams.js";
 
 dotenv.config();
@@ -13,6 +14,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/api/teams", teamsRoutes);
+app.use("/api/projectcreation", projectcreationRoutes);
 app.use("/api/auth", authRoutes);
 
 const server = http.createServer(app);
