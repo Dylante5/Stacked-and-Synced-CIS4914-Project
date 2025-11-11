@@ -139,7 +139,7 @@ export default function TeamsPage() {
 
   return (
     <div className="space-y-8">
-      <section className="app-surface p-4 rounded-xl !bg-white">
+      <section className="app-surface p-4 rounded-xl !bg-white" style={{ boxShadow: "3px 3px 10px rgba(0, 0, 0, 0.1)" }}>
         <h2 className="text-2xl font-bold" style={{ color: "#646cff" }}>Search Teams</h2>
         <div className="mt-3 flex gap-2">
           <input
@@ -168,7 +168,7 @@ export default function TeamsPage() {
         </ul>
       </section>
 
-      <section className="app-surface p-4 rounded-xl !bg-white">
+      <section className="app-surface p-4 rounded-xl !bg-white" style={{ boxShadow: "3px 3px 10px rgba(0, 0, 0, 0.1)" }}>
         <h2 className="text-2xl font-bold" style={{ color: "#646cff" }}>Create a Team</h2>
         <form onSubmit={createTeam} className="mt-3 space-y-3">
           <div>
@@ -187,7 +187,7 @@ export default function TeamsPage() {
       </section>
 
       {user && (
-		<section className="app-surface p-4 rounded-xl !bg-white">
+		<section className="app-surface p-4 rounded-xl !bg-white" style={{ boxShadow: "3px 3px 10px rgba(0, 0, 0, 0.1)" }}>
 		  <h2 className="text-2xl font-bold" style={{ color: "#646cff" }}>
 			My Teams
 		  </h2>
