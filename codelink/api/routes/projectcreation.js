@@ -18,7 +18,7 @@ router.post("/create", (req, res) => {
         }
         db.get(`SELECT * FROM projects WHERE id = ?`, [this.lastID], (err2, row) => {
             if (err2 || !row) return res.status(500).json({ error: "DB fetch error" });
-            return res.status(201).json({ user: row });
+            return res.status(201).json({ project: row });
         });
     });
 });
