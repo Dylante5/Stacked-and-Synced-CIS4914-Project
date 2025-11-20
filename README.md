@@ -112,7 +112,7 @@ codelink/
 - **Dylan Everett** — Project Manager
 - **Mark Burnette** — Scrum Master / Frontend Developer
 - **Matthew Golden** — Frontend Developer
-- **Yan Tong** — Backend Developer
+- **Yan Tong** — Backend Developer / Testing & Debugging
 
 ---
 
