@@ -59,12 +59,6 @@ cd ../web
 npm install
 ```
 
-#### Backend
-```bash
-cd ../api
-npm install
-```
-
 ### 3. Start development servers
 
 #### Start frontend
@@ -76,7 +70,7 @@ npm run dev
 #### Start backend
 ```bash
 cd ../api
-npm start
+node server.js
 ```
 
 ---
