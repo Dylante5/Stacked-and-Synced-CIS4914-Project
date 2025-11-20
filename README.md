@@ -55,7 +55,7 @@ cd Stacked-and-Synced-CIS4914-Project/codelink
 
 #### Frontend
 ```bash
-cd web
+cd ../web
 npm install
 ```
 
@@ -69,7 +69,7 @@ npm install
 
 #### Start frontend
 ```bash
-cd web
+cd ../web
 npm run dev
 ```
 
