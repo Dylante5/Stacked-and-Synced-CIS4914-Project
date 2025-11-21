@@ -94,8 +94,7 @@ codelink/			      # codelink project folder
 │   ├── migrate.js                    # migration script for user table updates
 │   ├── server.js                     # express + Socket.IO backend server
 │   ├── package.json                  # backend dependencies and scripts
-│   ├── package-lock.json             # backend dependency lock file
-│   └── node_modules/                 # Backend installed dependencies (change)
+│   └── package-lock.json             # backend dependency lock file
 │
 ├── web/                              # frontend (React, Vite, Tailwind, Monaco)
 │   ├── public/                       # public static files
