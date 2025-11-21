@@ -149,4 +149,8 @@ README.md                         # project documentation file
 - Aho, Timo, et al. “Designing IDE as a Service.” University of Jyväskylä, 2011.
 - Goldman, Max, et al. “Real-time Collaborative Coding in a Web IDE.” UIST 2011.
 - Tan, Xin, et al. “Understanding Real-Time Collaborative Programming: A Study of Visual Studio Live Share.” ACM TOSEM, 2024.
-```
+
+## License
+
+This project is licensed under the **MIT License**.
+Third-party packages used in this project retain their respective licenses, which can be found in the project’s **`package-lock.json`** files.
