@@ -7,6 +7,7 @@ import { spawn } from '@lydell/node-pty';
 import authRoutes from "./routes/auth.js";
 import projectcreationRoutes from "./routes/projectcreation.js";
 import teamsRoutes from "./routes/teams.js";
+import chat from "./chat.js";
 
 dotenv.config();
 
@@ -38,6 +39,8 @@ io.of("/docs").on("connection", (socket) => {
   socket.on("op", (payload) => socket.to(room).emit("op", payload));
   socket.on("chat", (msg) => io.of("/docs").to(room).emit("chat", msg));
 });
+
+chat(io);
 
 const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => console.log(`API listening on :${PORT}`));

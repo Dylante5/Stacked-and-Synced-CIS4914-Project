@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS users (
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
 )
 `);
-  
+
 db.run(`
   CREATE TABLE IF NOT EXISTS projects (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,6 +31,17 @@ db.run(`
     FOREIGN KEY(team_id) REFERENCES teams(id) ON DELETE CASCADE
   )
 `);
+
+db.run(`
+	CREATE TABLE IF NOT EXISTS chatHistory (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		team_id INTEGER NOT NULL,
+		userName TEXT NOT NULL,
+		message TEXT NOT NULL,
+		timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+		FOREIGN KEY(team_id) REFERENCES teams(id) ON DELETE CASCADE
+	)
+  `);
 
 db.serialize(() => {
   db.run(`

@@ -42,19 +42,19 @@ export default function App() {
             >
               Home
             </Link>
-			
-			<Link
-			  to="/teams"
-			  className="hover:underline"
-			  style={{
-				color: "#646cff",
-				opacity: user ? 1 : 0.5,
-				pointerEvents: user ? "auto" : "none",
-				cursor: user ? "pointer" : "not-allowed",
-			  }}
-			>
-			  Teams
-			</Link>
+
+            <Link
+              to="/teams"
+              className="hover:underline"
+              style={{
+                color: "#646cff",
+                opacity: user ? 1 : 0.5,
+                pointerEvents: user ? "auto" : "none",
+                cursor: user ? "pointer" : "not-allowed",
+              }}
+            >
+              Teams
+            </Link>
 
             <Link
               to="/app"
@@ -68,6 +68,20 @@ export default function App() {
             >
               App
             </Link>
+
+            <Link
+              to="/chat"
+              className="hover:underline"
+              style={{
+                color: "#646cff",
+                opacity: user ? 1 : 0.5,
+                pointerEvents: user ? "auto" : "none",
+                cursor: user ? "pointer" : "not-allowed",
+              }}
+            >
+              Chat
+            </Link>
+
 
             {/* Auth button */}
             {!user ? (
@@ -106,9 +120,8 @@ export default function App() {
       </header>
 
       <main
-        className={`p-6 ${
-          location.pathname === "/project" ? "max-w-none" : "max-w-6xl mx-auto"
-        }`}
+        className={`p-6 ${location.pathname === "/project" ? "max-w-none" : "max-w-6xl mx-auto"
+          }`}
       >
         <Outlet />
       </main>
