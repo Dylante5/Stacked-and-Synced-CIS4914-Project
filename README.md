@@ -1,4 +1,4 @@
-# Stacked & Synced
+# Codelink
 
 A real-time collaborative development environment integrating code editing, version control, terminal, project planning, and communication — all in one place.
 
