@@ -152,4 +152,4 @@ README.md                         # project documentation file
 
 ## License
 
-Third-party packages used in this project retain their respective licenses, which can be found in the project’s **`package-lock.json`** files.
+Third-party packages used in this project retain their respective licenses, which can be found in the project’s **`package-lock.json`** files in the web and api directories.
