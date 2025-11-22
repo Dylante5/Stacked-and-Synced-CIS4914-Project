@@ -126,7 +126,6 @@ codelink/			      # codelink project folder
 │   ├── eslint.config.js              # ESLint config
 │   ├── package.json                  # frontend dependencies and scripts
 │   ├── package-lock.json             # frontend dependency lock file
-│   └── .gitignore
 │
 Project Reports/                  # documentation for course deliverables
 .gitignore                        # root Git ignore rules
