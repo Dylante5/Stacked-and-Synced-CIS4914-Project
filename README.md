@@ -152,5 +152,4 @@ README.md                         # project documentation file
 
 ## License
 
-This project is licensed under the **MIT License**.
 Third-party packages used in this project retain their respective licenses, which can be found in the project’s **`package-lock.json`** files.
