@@ -14,7 +14,7 @@ router.post("/createfolder", (req, res) => {
     }
     const stmt = db.prepare(
         `INSERT INTO folders (name, project_id, parent) VALUES (?, ?, ?)`
-    )
+    );
     stmt.run(name, project_id, parent, function (err) {
         if (err) {
             return res.status(500).json({ error: "DB error" });
@@ -50,7 +50,7 @@ router.post("/createfile", (req, res) => {
 });
 
 // getting all files for a given project_id
-router.get("/", (req, res) => {
+router.get("/getfiles", (req, res) => {
     const { project_id } = req.params;
     if (!project_id) return res.status(400).json({ error: "Missing project_id" });
 
@@ -70,7 +70,7 @@ router.get("/", (req, res) => {
 });
 
 // getting all folders for a given project_id
-router.get("/mine/:userId", (req, res) => {
+router.get("/getfolders", (req, res) => {
     const { project_id } = req.params;
     if (!project_id) return res.status(400).json({ error: "Missing project_id" });
 
@@ -88,5 +88,29 @@ router.get("/mine/:userId", (req, res) => {
         }
     );
 });
+
+router.get("/getchildren/:parent", (req, res) => {
+    const { parent } = req.params;
+    if(!parent) return res.status(400).json({ error: "Missing parent" });
+
+    db.all(
+        `SELECT *
+     FROM folders 
+     WHERE parent = ?;
+     SELECT *
+     FROM files
+     WHERE parent = ?` ,
+        [parent, parent],
+        (err, rows) => {
+            if (err) {
+                console.error("DB query error:", err);
+                return res.status(500).json({ error: "Database query error" });
+            }
+            res.status(200).json({ projects: rows });
+        }
+    );
+});
+
+
 
 export default router;

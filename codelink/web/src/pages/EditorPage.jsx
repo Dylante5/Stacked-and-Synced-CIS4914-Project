@@ -1,7 +1,8 @@
 import * as monaco from "monaco-editor";
 import Editor from "../components/Editor";
 import Term from "../components/Terminal";
-import { Download, Upload } from "../Functions/FileFunctions";
+import FileTree from "../components/FileTree"
+import { Download, Upload } from "../functions/EditorFunctions";
 
 export default function EditorPage() {
     return (
@@ -26,7 +27,7 @@ export default function EditorPage() {
         
       <div className="flex flex-col border rounded-lg overflow-hidden" style={{ boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.1)" }}>
         <div className="p-2 font-semibold app-header mx-5">Terminal</div>
-        <div className="flex-1"><Term /></div>
+                <div className="flex-1"><Term /></div>
       </div>
     </div>
   );

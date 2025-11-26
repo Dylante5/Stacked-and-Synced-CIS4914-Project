@@ -73,6 +73,11 @@ export default function ProjectPage() {
 
             const data = await res.json();
             if (!res.ok) throw new Error(data?.error || "Request failed");
+            //const res2 = await fetch("/api/filesystem/createfolder", {
+            //    method: "POST",
+            //    body: JSON.stringify({ name: projectName, project_id: data.project.id, parent: -1}),
+            //});
+            //if (!res2.ok) throw new Error(data?.error || "Request failed");
 
             setProjects((prev) => [...prev, data.project]);
 
