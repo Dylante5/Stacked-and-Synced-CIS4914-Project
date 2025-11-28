@@ -6,5 +6,3 @@
 /.vs
 codelink/web/node_modules
 codelink/api/node_modules
-/codelink/api/data/codelink.db
-/codelink/api/data/codelink.db

@@ -90,6 +90,7 @@ codelink/			      # codelink project folder
 │   ├── data/                         # SQLite database storage
 │   │   └── codelink.db
 │   │
+|   ├── chat.js                       # routes for fetching and updating the chatHistory table 
 │   ├── db.js                         # database connection and schema creation
 │   ├── migrate.js                    # migration script for user table updates
 │   ├── server.js                     # express + Socket.IO backend server
@@ -104,6 +105,7 @@ codelink/			      # codelink project folder
 │   │   ├── components/               # reusable UI components
 │   │   │   ├── AuthModal.jsx
 │   │   │   ├── Editor.jsx
+|   |   |   ├── FileTree.jsx
 │   │   │   └── Terminal.jsx
 │   │   │
 │   │   ├── Functions/                # logical helpers/utilities
