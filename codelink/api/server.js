@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import { spawn } from '@lydell/node-pty';
 import authRoutes from "./routes/auth.js";
 import projectcreationRoutes from "./routes/projectcreation.js";
+import filesystemRoutes from "./routes/filesystem.js";
 import teamsRoutes from "./routes/teams.js";
 import chat from "./chat.js";
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use("/api/teams", teamsRoutes);
 app.use("/api/projectcreation", projectcreationRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/fs", filesystemRoutes);
 
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
