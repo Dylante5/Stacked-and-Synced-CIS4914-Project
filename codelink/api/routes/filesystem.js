@@ -224,4 +224,62 @@ router.get("/getchildren/:parent", (req, res) => {
     );
 });
 
+// get a single files content
+router.get("/file/:id", (req, res) => {
+	const { id } = req.params;
+
+	db.get(`SELECT * FROM files WHERE id = ?`, [id], (err, row) => {
+		if (err) {
+		console.error("get file DB error:", err.message);
+		return res.status(500).json({ error: err.message });
+		}
+		if (!row) {
+			return res.status(404).json({ error: "File not found" });
+		}
+		res.status(200).json(row);
+	});
+});
+
+// update a files content
+router.patch("/file/:id", (req, res) => {
+	const { id } = req.params;
+	const { content, name } = req.body || {};
+
+	if (content === undefined && name === undefined) {
+		return res.status(400).json({ error: "Nothing to update" });
+	}
+
+	const fields = [];
+	const params = [];
+
+	if (name !== undefined) {
+		fields.push("name = ?");
+		params.push(name);
+	}
+	if (content !== undefined) {
+		fields.push("content = ?");
+		params.push(content);
+	}
+	params.push(id);
+
+	const stmt = db.prepare(`UPDATE files SET ${fields.join(", ")} WHERE id = ?`);
+
+	stmt.run(params, function (err) {
+		if (err) {
+			console.error("update file DB error:", err.message);
+			return res.status(500).json({ error: err.message });
+		}
+		if (this.changes === 0) {
+			return res.status(404).json({ error: "File not found" });
+		}
+		db.get(`SELECT * FROM files WHERE id = ?`, [id], (err2, row) => {
+			if (err2 || !row) {
+				return res.status(500).json({ error: "DB fetch error" });
+			}
+			res.status(200).json(row);
+		});
+	});
+});
+
+
 export default router;
