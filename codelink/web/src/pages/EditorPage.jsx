@@ -450,7 +450,7 @@ export default function EditorPage() {
 
   return (
     <div className="flex w-full h-[80vh]">
-      <aside className="w-60 border-r border-gray-300 bg-white flex flex-col">
+      <aside className="w-60 border-r border-gray-300 bg-white flex flex-col" style={{ boxShadow: "3px 3px 10px rgba(0, 0, 0, 0.1)" }}>
         <div className="px-3 py-2 font-semibold text-sm text-gray-700 border-b">
           Files
         </div>
@@ -492,8 +492,8 @@ export default function EditorPage() {
 
       <div className="flex-1 flex justify-center">
         <div className="grid gap-4 md:grid-cols-2 h-full w-full max-w-5xl px-4">
-          <div className="flex flex-col border rounded-lg overflow-hidden">
-            <div className="p-2 font-semibold app-header mx-5 flex items-center gap-2">
+          <div className="flex flex-col border overflow-hidden border-gray-300 bg-white" style={{ boxShadow: "3px 3px 10px rgba(0, 0, 0, 0.1)" }}>
+            <div className="p-2 font-semibold app-header mx-auto flex items-center gap-2">
               <span>Editor</span>
               {activeFile && (
                 <span className="text-xs text-gray-500">
@@ -523,7 +523,7 @@ export default function EditorPage() {
                 Upload
               </button>
             </div>
-			<div className="flex-1 relative">
+			<div className="flex-1 relative border-t border-black">
 			  {activeFile ? (
 				<Editor />
 			  ) : (
@@ -536,8 +536,8 @@ export default function EditorPage() {
 			  )}
 			</div>
           </div>
-          <div className="flex flex-col border rounded-lg overflow-hidden">
-            <div className="p-2 font-semibold app-header mx-5">
+          <div className="flex flex-col border overflow-hidden border-gray-300 bg-white" style={{ boxShadow: "3px 3px 10px rgba(0, 0, 0, 0.1)" }}>
+            <div className="p-2 font-semibold app-header border-b border-black">
               Terminal
             </div>
             <div className="flex-1">
