@@ -523,11 +523,19 @@ export default function EditorPage() {
                 Upload
               </button>
             </div>
-            <div className="flex-1">
-              <Editor />
-            </div>
+			<div className="flex-1 relative">
+			  {activeFile ? (
+				<Editor />
+			  ) : (
+				<div className="w-full h-full flex items-center justify-center">
+				  <div className="text-center text-gray-500">
+					<h2 className="text-xl font-semibold mb-2">No File Selected</h2>
+					<p className="text-sm">Choose a file from the sidebar to begin editing.</p>
+				  </div>
+				</div>
+			  )}
+			</div>
           </div>
-
           <div className="flex flex-col border rounded-lg overflow-hidden">
             <div className="p-2 font-semibold app-header mx-5">
               Terminal
