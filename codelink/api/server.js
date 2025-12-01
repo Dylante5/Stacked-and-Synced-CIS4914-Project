@@ -1,8 +1,9 @@
 import express from "express";
 import http from "http";
 import cors from "cors";
-import { Server } from "socket.io";
 import dotenv from "dotenv";
+import { Server, Socket } from "socket.io";
+import { YSocketIO } from "y-socket.io/dist/server";
 import { spawn } from '@lydell/node-pty';
 import authRoutes from "./routes/auth.js";
 import projectcreationRoutes from "./routes/projectcreation.js";
@@ -33,12 +34,30 @@ io.of("/pty").on("connection", (socket) => {
   socket.on("disconnect", () => pty.kill());
 });
 
-io.of("/docs").on("connection", (socket) => {
-  let room = "";
-  socket.on("join", (docId) => { room = docId; socket.join(room); });
-  socket.on("op", (payload) => socket.to(room).emit("op", payload));
-  socket.on("chat", (msg) => io.of("/docs").to(room).emit("chat", msg));
+// handle cursor synchronization
+io.of("/editor").on("connection", (socket) => {
+  socket.on("join", ({ docName, userName }) => {
+    socket.join(docName);
+    socket.to(docName).emit("joined", userName);
+  });
+
+  socket.on("cursor-pos", ({ docName, userName, position }) => {
+    socket.to(docName).emit("cursor-pos", { userName, position });
+  });
+
+  socket.on("leave", ({ docName, userName }) => {
+    socket.to(docName).emit("leave", userName);
+  });
 });
+
+// handle collaborative editing with Yjs and y-socket.io
+const ysocketio = new YSocketIO(io, {
+  // authenticate: (auth) => auth.token === 'valid-token',
+  // levelPersistenceDir: './storage-location',
+  // gcEnabled: true,
+});
+
+ysocketio.initialize();
 
 chat(io);
 

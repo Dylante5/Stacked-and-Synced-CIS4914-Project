@@ -1,0 +1,26 @@
+.cursor {
+    width: 2px !important;
+    z-index: 1000;
+}
+
+.cursor::after {
+    background-color: inherit;
+    display: inline-block;
+    color: white;
+    width: max-content;
+    box-sizing: content-box;
+
+    opacity: 0;
+
+    z-index: inherit;
+}
+
+.cursor:hover::after {
+    opacity: 1 !important;
+}
+
+@keyframes fade {
+  0% { opacity: 1; }
+  71% { opacity: 1; }
+  100% { opacity: 0; }
+}

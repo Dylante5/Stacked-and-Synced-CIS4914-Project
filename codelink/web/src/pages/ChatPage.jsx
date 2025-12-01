@@ -28,6 +28,7 @@ export default function Chat() {
         });
 
         return () => {
+            s.removeAllListeners();
             s.disconnect();
         };
     }, []);
