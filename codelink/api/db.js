@@ -9,7 +9,7 @@ const dbPath = path.join(__dirname, "data", "codelink.db");
 sqlite3.verbose();
 const db = new sqlite3.Database(dbPath);
 
-
+//Create users table
 db.run(`
 CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS users (
 )
 `);
 
+//Create projects table
 db.run(`
   CREATE TABLE IF NOT EXISTS projects (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -32,6 +33,7 @@ db.run(`
   )
 `);
 
+//Create chatHistory table
 db.run(`
 	CREATE TABLE IF NOT EXISTS chatHistory (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -43,6 +45,7 @@ db.run(`
 	)
   `);
 
+//Create teams table
 db.serialize(() => {
   db.run(`
 	CREATE TABLE IF NOT EXISTS teams (
@@ -53,7 +56,8 @@ db.serialize(() => {
 	)
   `);
 
-  db.run(`
+//Create team_members table
+db.run(`
 	CREATE TABLE IF NOT EXISTS team_members (
 	  id INTEGER PRIMARY KEY AUTOINCREMENT,
 	  team_id INTEGER NOT NULL,
@@ -65,6 +69,31 @@ db.serialize(() => {
 	  FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 	)
   `);
+
+//Create folders table
+db.run(`
+	CREATE TABLE IF NOT EXISTS folders (
+	   id INTEGER PRIMARY KEY AUTOINCREMENT,
+	   project_id INTEGER,
+	   parent INTEGER,
+	   name TEXT,
+	   UNIQUE(project_id, parent, name),
+	   FOREIGN KEY(project_id) REFERENCES projects(id) ON DELETE CASCADE
+	)
+  `);
+
+//Create files table
+db.run(`
+    CREATE TABLE IF NOT EXISTS files (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		project_id INTEGER,
+		parent INTEGER,
+		name TEXT,
+		content BLOB,
+		UNIQUE(project_id, parent, name),
+		FOREIGN KEY(project_id) REFERENCES projects(id) ON DELETE CASCADE
+	)
+`)
 });
 
 export default db;

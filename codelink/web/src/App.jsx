@@ -20,6 +20,10 @@ export default function App() {
     navigate("/");
   };
 
+  const isEditorRoute =
+    location.pathname === "/app" || location.pathname.startsWith("/app/");
+  const isProjectRoute = location.pathname === "/project";
+  
   return (
     <div className="min-h-screen bg-gray-100">
       <header className="border-b bg-white">
@@ -120,12 +124,17 @@ export default function App() {
       </header>
 
       <main
-        className={`p-6 ${location.pathname === "/project" ? "max-w-none" : "max-w-6xl mx-auto"
-          }`}
+        className={
+          isEditorRoute
+            ? "flex-1 w-full p-6"
+            : `flex-1 p-6 ${
+                isProjectRoute ? "max-w-none" : "max-w-6xl mx-auto"
+              }`
+        }
       >
         <Outlet />
       </main>
-
+	  
       <footer className="text-center text-sm text-gray-500 p-6">
         CodeLink
       </footer>

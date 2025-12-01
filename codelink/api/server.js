@@ -7,8 +7,10 @@ import { YSocketIO } from "y-socket.io/dist/server";
 import { spawn } from '@lydell/node-pty';
 import authRoutes from "./routes/auth.js";
 import projectcreationRoutes from "./routes/projectcreation.js";
+import filesystemRoutes from "./routes/filesystem.js";
 import teamsRoutes from "./routes/teams.js";
 import chat from "./chat.js";
+import runRoutes from "./routes/runcode.js";
 
 dotenv.config();
 
@@ -18,6 +20,8 @@ app.use(express.json());
 app.use("/api/teams", teamsRoutes);
 app.use("/api/projectcreation", projectcreationRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/fs", filesystemRoutes);
+app.use("/api/run", runRoutes);
 
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });

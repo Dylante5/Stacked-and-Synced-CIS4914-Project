@@ -30,7 +30,7 @@ function UpdateUsers({ users }) {
     <style>
       {
         Array.from(users.keys()).map((user) => (
-          `
+        `
         .cursor.${user}::after {
           content: "${user}";
         }
@@ -65,6 +65,9 @@ export default function CodeEditor({ onEditorMount }) {
   const handleEditorDidMount = (editor, monaco) => {
     setEditor(editor);
     setMonaco(monaco);
+
+    console.log(editor);
+    console.log(onEditorMount);
 
     if (onEditorMount) onEditorMount(editor);
 

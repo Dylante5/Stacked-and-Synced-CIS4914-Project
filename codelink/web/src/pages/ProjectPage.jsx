@@ -73,6 +73,11 @@ export default function ProjectPage() {
 
             const data = await res.json();
             if (!res.ok) throw new Error(data?.error || "Request failed");
+            //const res2 = await fetch("/api/filesystem/createfolder", {
+            //    method: "POST",
+            //    body: JSON.stringify({ name: projectName, project_id: data.project.id, parent: -1}),
+            //});
+            //if (!res2.ok) throw new Error(data?.error || "Request failed");
 
             setProjects((prev) => [...prev, data.project]);
 
@@ -102,7 +107,8 @@ export default function ProjectPage() {
                 {projects.map((p) => (
                     <div
                         key={p.id}
-                        className="border p-4 rounded-lg cursor-pointer hover:bg-gray-100"
+                        className="bg-white border p-4 rounded-lg cursor-pointer hover:bg-gray-100"
+						style={{ boxShadow: "3px 3px 10px rgba(0, 0, 0, 0.1)" }}
                         onClick={() => navigate(`/app?projectId=${p.id}`)}
                     >
                         <h2 className="font-bold text-lg">{p.name}</h2>
