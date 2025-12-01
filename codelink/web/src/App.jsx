@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import AuthModal from "./components/AuthModal.jsx";
+import FloatingChatWidget from "./components/FloatingChatWidget.jsx";
+
 
 export default function App() {
   const location = useLocation();
@@ -125,6 +127,8 @@ export default function App() {
       <footer className="text-center text-sm text-gray-500 p-6">
         CodeLink
       </footer>
+
+      <FloatingChatWidget />
 
       {showAuth && (
         <AuthModal
