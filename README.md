@@ -123,17 +123,18 @@ node server.js
 ### Auth
 
 - POST /api/auth/register
-POST /api/auth/login
+- POST /api/auth/login
 
-Teams
+### Teams
 
-POST /api/teams/create
-POST /api/teams/join
-GET /api/teams/:teamId
+- POST /api/teams/create
+- POST /api/teams/join
+- GET /api/teams/:teamId
 
-Run Code
-POST /api/run/my
-POST /api/run/shared
+### Run Code
+
+- POST /api/run/my
+- POST /api/run/shared
 
 ---
 
