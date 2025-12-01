@@ -211,34 +211,58 @@ export default function EditorPage() {
       return;
     }
 
-    const code = editor.getValue();
+	  const code = editor.getValue();
 
-    try {
-      const res = await fetch(`${API_BASE}/api/run/my`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code }),
-      });
+	  try {
+		const res = await fetch(`${API_BASE}/api/run/my`, {
+		  method: "POST",
+		  headers: { "Content-Type": "application/json" },
+		  body: JSON.stringify({ code }),
+		});
 
-      const data = await res.json();
+		const data = await res.json();
 
-      if (!res.ok) {
-        alert("Run failed: " + (data.error || res.statusText));
-        return;
-      }
+		if (!res.ok) {
+		  const message = data.error || res.statusText;
+		  if (window.codelinkTermWrite) {
+			window.codelinkTermWrite(
+			  `\r\n[Run My Code FAILED]\r\n${message}\r\n\r\n`
+			);
+		  } else {
+			alert("Run failed: " + message);
+		  }
+		  return;
+		}
 
-      // just logged for now, will send command via socket later
-      console.log("RUN MY CODE RESULT:", data);
-      const { stdout, stderr, exitCode } = data;
-      if (stderr) {
-        alert(`stderr:\n${stderr}`);
-      } else {
-        alert(`stdout:\n${stdout || "(no output)"}\nexitCode: ${exitCode}`);
-      }
-    } catch (err) {
-      console.error("Run my code error:", err);
-      alert("Network error running code");
-    }
+		const { stdout, stderr, exitCode } = data;
+
+		const write = window.codelinkTermWrite;
+		if (write) {
+		  write("\r\n[Run My Code]\r\n");
+		  if (stdout) {
+			write(stdout.endsWith("\n") ? stdout : stdout + "\r\n");
+		  }
+		  if (stderr) {
+			write("\r\n[stderr]\r\n");
+			write(stderr.endsWith("\n") ? stderr : stderr + "\r\n");
+		  }
+		  write(`\r\n[exitCode ${exitCode}]\r\n`);
+		} else {
+		  alert(
+			(stderr ? `stderr:\n${stderr}\n\n` : "") +
+			  `stdout:\n${stdout || "(no output)"}\nexitCode: ${exitCode}`
+		  );
+		}
+	  } catch (err) {
+		console.error("Run my code error:", err);
+		if (window.codelinkTermWrite) {
+		  window.codelinkTermWrite(
+			`\r\n[Run My Code ERROR]\r\nNetwork error running code\r\n\r\n`
+		  );
+		} else {
+		  alert("Network error running code");
+		}
+	  }
   };
 
   const runSharedCode = () => {

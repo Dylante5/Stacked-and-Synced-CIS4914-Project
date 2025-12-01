@@ -9,6 +9,7 @@ export default function Term() {
 
   useEffect(() => {
     if (!box.current) return;
+
     const term = new Terminal({ convertEol: true });
     const fit = new FitAddon();
     term.loadAddon(fit);
@@ -16,13 +17,30 @@ export default function Term() {
     fit.fit();
 
     const socket = io("http://localhost:4000/pty");
-    term.onData(d => socket.emit("data", d));
-    socket.on("data", d => term.write(d));
+    term.onData((d) => socket.emit("data", d));
+    socket.on("data", (d) => term.write(d));
+
+    window.codelinkTermWrite = (text) => {
+      if (typeof text !== "string") {
+        text = String(text);
+      }
+      term.write(text);
+    };
+
+    window.codelinkTermClear = () => {
+      term.clear();
+    };
 
     const onResize = () => fit.fit();
     window.addEventListener("resize", onResize);
 
-    return () => { socket.close(); window.removeEventListener("resize", onResize); term.dispose(); };
+    return () => {
+      socket.close();
+      window.removeEventListener("resize", onResize);
+      term.dispose();
+      delete window.codelinkTermWrite;
+      delete window.codelinkTermClear;
+    };
   }, []);
 
   return <div className="h-72 w-full border rounded-lg" ref={box} />;

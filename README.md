@@ -17,6 +17,7 @@ Designed for both software teams and computer science education, it reduces tool
 - Real-time collaborative code editor (Monaco)
 - Syntax highlighting and multi-file project support
 - Integrated terminal for executing CLI-based programs
+- Run code using Docker sandbox
 - Multi-language compiler/interpreter interface
 - GitHub version tracking and integration
 - Kanban-style project planning dashboard
@@ -30,16 +31,58 @@ Designed for both software teams and computer science education, it reduces tool
 - React
 - Tailwind CSS
 - Monaco Editor
+- Yjs (CRDT shared editing)
 - Vite
 
 ### Backend
 - Node.js
+- SQLite
+- Docker
 - WebSockets / CRDT-based collaboration
 
 ### Infrastructure
 - Docker
 - GitHub API
 - SQL / Python components
+
+---
+
+## Docker Integration (Code Execution Engine)
+
+CodeLink uses Docker to safely execute user-submitted code inside isolated containers.
+This protects the host system, ensures consistent environments, and enables future multi-language execution.
+
+### Why Docker?
+- Isolated per-run execution
+- No access to host filesystem
+- Reproducible runtime (Node 18 Alpine image)
+- Prevents malicious scripts from affecting the server
+- Enables future support for Python, C++, Java, etc.
+
+### Prerequisites
+
+Before running code, install Docker:
+- Install Docker Desktop:
+- https://www.docker.com/products/docker-desktop/
+
+### How Code Execution Works
+
+Clicking Run My Code or Run Shared Code sends the current file contents to: 
+```bash
+POST /api/run/my
+```
+
+The backend executes the code inside a Node.js Docker container:
+```bash
+docker run --rm node:18-alpine node -e "<user code>"
+```
+
+The backend returns:
+- stdout
+- stderr
+- exitCode
+
+This output is streamed directly into the integrated terminal on the frontend.
 
 ---
 
@@ -72,6 +115,25 @@ npm run dev
 cd ../api
 node server.js
 ```
+
+---
+
+## API Routes
+
+### Auth
+
+- POST /api/auth/register
+POST /api/auth/login
+
+Teams
+
+POST /api/teams/create
+POST /api/teams/join
+GET /api/teams/:teamId
+
+Run Code
+POST /api/run/my
+POST /api/run/shared
 
 ---
 

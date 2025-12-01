@@ -10,7 +10,12 @@ import { io } from 'socket.io-client';
 import "./Editor.css"
 
 const user = JSON.parse(localStorage.getItem("user"));
-const userName = user?.firstName;
+
+const userName =
+  (user?.firstName && user?.lastName
+    ? `${user.firstName} ${user.lastName}`
+    : user?.firstName || user?.username || "UnknownUser"
+  ).replace(/\s+/g, "_");
 //const teams = user.teams||[];
 
 const docName = 'test';
@@ -125,6 +130,7 @@ export default function CodeEditor({ onEditorMount }) {
           {
             options: {
               className: className,
+			  hoverMessage: { value: user },
             },
             range: range,
           }

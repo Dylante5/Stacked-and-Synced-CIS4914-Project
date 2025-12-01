@@ -5,7 +5,7 @@ const router = Router();
 
 /**
  * POST /api/run/my
- * Runs the given JavaScript in Node.
+ * Runs the given JavaScript in node docker container.
  */
 router.post("/my", (req, res) => {
   const { code } = req.body || {};
@@ -14,10 +14,18 @@ router.post("/my", (req, res) => {
     return res.status(400).json({ error: "code (string) is required" });
   }
 
+  const args = ["run", "--rm", "node:18-alpine", "node", "-e", code]; // change in prod
+
+  let child;
+  try {
+    child = spawnChild("docker", args);
+  } catch (err) {
+    console.error("Failed to spawn docker:", err);
+    return res.status(500).json({ error: "Failed to start Docker runner" });
+  }
+
   let stdout = "";
   let stderr = "";
-
-  const child = spawnChild("node", ["-e", code], { timeout: 5000 });
 
   child.stdout.on("data", (data) => {
     stdout += data.toString();
@@ -28,8 +36,8 @@ router.post("/my", (req, res) => {
   });
 
   child.on("error", (err) => {
-    console.error("Runner failed to start:", err);
-    return res.status(500).json({ error: "Failed to start runner" });
+    console.error("Docker runner process error:", err);
+    return res.status(500).json({ error: "Docker process error" });
   });
 
   child.on("close", (exitCode) => {
