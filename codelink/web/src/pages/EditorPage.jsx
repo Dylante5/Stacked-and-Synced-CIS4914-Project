@@ -205,6 +205,47 @@ export default function EditorPage() {
   const [activeFile, setActiveFile] = useState(null);
   const saveTimeoutRef = useRef(null);
 
+  const runMyCode = async () => {
+    const editor = monaco.editor.getEditors()[0];
+    if (!editor) {
+      alert("Editor is not ready.");
+      return;
+    }
+
+    const code = editor.getValue();
+
+    try {
+      const res = await fetch(`${API_BASE}/api/run/my`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert("Run failed: " + (data.error || res.statusText));
+        return;
+      }
+
+      // just logged for now, will send command via socket later
+      console.log("RUN MY CODE RESULT:", data);
+      const { stdout, stderr, exitCode } = data;
+      if (stderr) {
+        alert(`stderr:\n${stderr}`);
+      } else {
+        alert(`stdout:\n${stdout || "(no output)"}\nexitCode: ${exitCode}`);
+      }
+    } catch (err) {
+      console.error("Run my code error:", err);
+      alert("Network error running code");
+    }
+  };
+  
+  const runSharedCode = () => {
+    alert("(placeholder)");
+  };
+
   useEffect(() => {
     if (!projectId) return;
 
@@ -491,7 +532,7 @@ export default function EditorPage() {
       </aside>
 
       <div className="flex-1 flex justify-center">
-        <div className="grid gap-4 md:grid-cols-2 h-full w-full max-w-5xl px-4">
+        <div className="grid gap-4 md:grid-cols-2 h-full w-full max-w-7xl px-4">
           <div className="flex flex-col border overflow-hidden border-gray-300 bg-white" style={{ boxShadow: "3px 3px 10px rgba(0, 0, 0, 0.1)" }}>
             <div className="p-2 font-semibold app-header mx-auto flex items-center gap-2">
               <span>Editor</span>
@@ -500,28 +541,36 @@ export default function EditorPage() {
                   ({activeFile.name})
                 </span>
               )}
-              <button
-                className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-700 mx-2"
-                onClick={() =>
-                  eval(monaco.editor.getEditors()[0].getValue())
-                }
-              >
-                Run
-              </button>
-              <button
-                className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-700 mx-2"
-                onClick={() =>
-                  Download(monaco.editor.getEditors()[0].getValue())
-                }
-              >
-                Download
-              </button>
-              <button
-                className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-700 mx-2"
-                onClick={() => Upload()}
-              >
-                Upload
-              </button>
+			  {activeFile && (
+				<div className="flex justify-center">
+				  <button
+					className="relative inline-flex items-center justify-center me-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-700 mx-2"
+					onClick={runMyCode}
+				  >
+					Run My Code
+				  </button>
+				  <button
+					className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-700 mx-2"
+					onClick={runSharedCode}
+				  >
+					Run Shared Code
+				  </button>
+				  <button
+					className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-700 mx-2"
+					onClick={() =>
+					  Download(monaco.editor.getEditors()[0].getValue())
+					}
+				  >
+					Download
+				  </button>
+				  <button
+					className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-700 mx-2"
+					onClick={() => Upload()}
+				  >
+					Upload
+				  </button>
+				</div>
+			  )}
             </div>
 			<div className="flex-1 relative border-t border-black">
 			  {activeFile ? (
