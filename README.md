@@ -116,6 +116,10 @@ cd ../api
 node server.js
 ```
 
+### 4. Run Docker
+
+Open Docker on your desktop to allow the remote container management system to run with Docker integration.
+
 ---
 
 ## API Routes
