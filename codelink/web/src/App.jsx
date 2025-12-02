@@ -48,6 +48,19 @@ export default function App() {
             >
               Home
             </Link>
+			
+			<Link
+              to="/project"
+              className="hover:underline"
+              style={{
+                color: "#646cff",
+                opacity: user ? 1 : 0.5,
+                pointerEvents: user ? "auto" : "none",
+                cursor: user ? "pointer" : "not-allowed",
+              }}
+            >
+              Project
+            </Link>
 
             <Link
               to="/teams"
