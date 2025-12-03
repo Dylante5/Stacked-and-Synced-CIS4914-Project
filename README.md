@@ -171,6 +171,8 @@ codelink/			      # codelink project folder
 │   ├── src/                          # main React application
 │   │   ├── assets/                   # images/static assets
 │   │   ├── components/               # reusable UI components
+│   │   │   ├── FloatingChatWidget.jsx
+│   │   │   ├── MiniChatWindow.jsx
 │   │   │   ├── AuthModal.jsx
 │   │   │   ├── Editor.jsx
 |   |   |   ├── FileTree.jsx
@@ -183,6 +185,7 @@ codelink/			      # codelink project folder
 │   │   │   ├── Home.jsx
 │   │   │   ├── EditorPage.jsx
 │   │   │   ├── ProjectPage.jsx
+│   │   │   ├── ChatPage.jsx
 │   │   │   └── TeamsPage.jsx
 │   │   │
 │   │   ├── App.jsx                   # layout and routing wrapper
@@ -195,11 +198,11 @@ codelink/			      # codelink project folder
 │   ├── tailwind.config.js            # TailwindCSS config
 │   ├── eslint.config.js              # ESLint config
 │   ├── package.json                  # frontend dependencies and scripts
-│   ├── package-lock.json             # frontend dependency lock file
+│   └── package-lock.json             # frontend dependency lock file
 │
-Project Reports/                  # documentation for course deliverables
-.gitignore                        # root Git ignore rules
-README.md                         # project documentation file
+├── Project Reports/                  # documentation for course deliverables
+├── .gitignore                        # root Git ignore rules
+└── README.md                         # project documentation file
 ```
 
 ---
