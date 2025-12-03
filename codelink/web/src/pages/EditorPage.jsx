@@ -606,10 +606,7 @@ export default function EditorPage() {
               )}
             </div>
           </div>
-          <div className="flex flex-col border overflow-hidden border-gray-300 bg-white" style={{ boxShadow: "3px 3px 10px rgba(0, 0, 0, 0.1)" }}>
-            <div className="p-2 font-semibold app-header border-b border-black">
-              Terminal
-            </div>
+          <div className="flex flex-col overflow-hidden">
             <div className="flex-1">
               <Term />
             </div>
