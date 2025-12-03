@@ -1,5 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 import { io } from "socket.io-client";
+import Button from "../components/Button";
+import Input from "../components/Input";
+import { DarkModeContext } from "../components/DarkModeContext";
 
 const SOCKET_URL = "http://localhost:4000"; // TODO: don't hardcode
 
@@ -15,27 +18,28 @@ export default function Chat() {
     const teams = user.teams || [];
 
     const [teamId, setTeamId] = useState(teams.length > 0 ? teams[0].id : null);
+    const darkMode = useContext(DarkModeContext);
 
     // Always refresh team info from backend
     useEffect(() => {
-    async function refreshTeams() {
-        if (!user?.id) return;
+        async function refreshTeams() {
+            if (!user?.id) return;
 
-        const res = await fetch(`/api/teams/mine?userId=${user.id}`);
-        const data = await res.json();
+            const res = await fetch(`/api/teams/mine?userId=${user.id}`);
+            const data = await res.json();
 
-        user.teams = data.teams || [];
-        localStorage.setItem("user", JSON.stringify(user));
+            user.teams = data.teams || [];
+            localStorage.setItem("user", JSON.stringify(user));
 
-        // reset teamId
-        if (data.teams.length > 0) {
-            setTeamId(data.teams[0].id);
-        } else {
-            setTeamId("test-room");
+            // reset teamId
+            if (data.teams.length > 0) {
+                setTeamId(data.teams[0].id);
+            } else {
+                setTeamId("test-room");
+            }
         }
-    }
 
-    refreshTeams();
+        refreshTeams();
     }, []);
 
     // Initialize socket connection
@@ -131,12 +135,11 @@ export default function Chat() {
 
     return (
         <div className="border rounded p-3 flex flex-col h-96">
-            
             {/* team selector */}
             <div>
                 <select
                     id="team-selector"
-                    className="text-black"
+                    className={darkMode ? "text-gray-100" : "text-gray-800"}
                     onChange={(e) => setTeamId(Number(e.target.value))} // ensure numeric room ID
                 >
                     {teams.map((team) => (
@@ -152,7 +155,7 @@ export default function Chat() {
                 {messages.map((m, i) => {
                     if (m.system) {
                         return (
-                            <div key={m.ts} className="text-xs text-gray-500 text-center">
+                            <div key={m.ts} className={"text-xs text-center " + (darkMode ? "text-gray-100" : "text-gray-800")}>
                                 {m.message}
                             </div>
                         );
@@ -163,7 +166,7 @@ export default function Chat() {
 
                     return (
                         <div key={m.id} className={`mb-2 ${m.userName === userName ? "text-right" : "text-left"}`}>
-                            {showUser && <div className="text-xs text-gray-400">{m.userName}</div>}
+                            {showUser && <div className={"text-xs " + (darkMode ? "text-gray-100" : "text-gray-800")}>{m.userName}</div>}
                             <div className="inline-block bg-gray-200 text-black rounded px-3 py-1 text-sm">
                                 {m.message}
                             </div>
@@ -175,14 +178,13 @@ export default function Chat() {
             </div>
 
             {/* typing indicator */}
-            <div className="mb-2 text-xs text-black">
+            <div className={"mb-2 text-xs " + (darkMode ? "text-gray-100" : "text-gray-800")}>
                 {typingList ? `${typingList} is typing...` : ""}
             </div>
 
             {/* input box */}
             <div className="flex gap-2">
-                <input
-                    className="flex-1 border rounded px-2 py-1 text-black"
+                <Input
                     value={text}
                     onChange={handleTyping}
                     onKeyDown={(e) => {
@@ -191,10 +193,12 @@ export default function Chat() {
                             sendMessage();
                         }
                     }}
+
                 />
-                <button className="bg-[#646cff] hover:bg-[#535bf2] text-white px-3 py-1 rounded transition" onClick={sendMessage}>
-                    Send
-                </button>
+                <Button
+                    onClick={sendMessage}
+                    children="Send"
+                />
             </div>
         </div>
     );

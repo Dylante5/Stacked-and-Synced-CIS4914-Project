@@ -1,7 +1,7 @@
 import { DarkModeContext } from "./DarkModeContext";
 import { useContext, useEffect, useState } from "react";
 
-export default function Input({ id, value, onChange, placeholder }) {
+export default function Input({ id, value, onChange, onKeyDown, placeholder }) {
     const darkMode = useContext(DarkModeContext);
     const [className, setClassName] = useState("w-full rounded-lg border px-3 py-2 text-gray-600"); // TODO: alter size on level(?)
 
@@ -14,6 +14,7 @@ export default function Input({ id, value, onChange, placeholder }) {
             id={id}
             value={value}
             onChange={onChange}
+            onKeyDown={onKeyDown}
             placeholder={placeholder}
             className={className}
         />

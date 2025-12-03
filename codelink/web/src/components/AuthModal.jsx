@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Button from "./Button";
 
 export default function AuthModal({ open, onClose, onSuccess }) {
   const [mode, setMode] = useState("login");
@@ -62,13 +63,11 @@ export default function AuthModal({ open, onClose, onSuccess }) {
 
       <div className="relative w-full max-w-md">
         <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/90 shadow-2xl backdrop-blur-xl dark:bg-slate-900/90">
-          <button
-            type="button"
+          <Button
             onClick={onClose}
-            className="absolute right-4 top-4 rounded-full border border-slate-200/70 bg-white/80 px-2 py-1 text-xs font-medium text-slate-500 shadow-sm hover:text-slate-700 dark:bg-slate-800/80 dark:border-slate-700"
-          >
-            ✕
-          </button>
+            className="absolute right-4 top-4 rounded-full border border-slate-200/70 px-2 py-1 text-xs font-medium shadow-sm hover:text-slate-700"
+            children="✕"
+          />
           <div className="border-b border-slate-200/60 bg-gradient-to-r from-indigo-500/10 via-transparent to-purple-500/10 px-6 pt-6 pb-4 dark:border-slate-800">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-500">
               CODELINK
@@ -85,28 +84,14 @@ export default function AuthModal({ open, onClose, onSuccess }) {
             </p>
             <div className="mt-4 flex justify-center">
               <div className="inline-flex rounded-full bg-slate-100 p-1 text-xs font-medium dark:bg-slate-800">
-                <button
-                  type="button"
+                <Button
                   onClick={() => setMode("login")}
-                  className={`flex-1 flex items-center justify-center text-center rounded-full px-3 py-1.5 transition ${
-                    mode === "login"
-                      ? "bg-white shadow-sm text-slate-900 dark:bg-slate-900 dark:text-slate-50"
-                      : "text-slate-500 hover:text-slate-700 dark:text-slate-400"
-                  }`}
-                >
-                  Log in
-                </button>
-                <button
-                  type="button"
+                  className={"flex-1 flex items-center justify-center text-center rounded-full px-3 py-1.5 transition"}
+                  children="Log in"/>
+                <Button
                   onClick={() => setMode("register")}
-                  className={`flex-1 flex items-center justify-center text-center rounded-full px-3 py-1.5 transition ${
-                    mode === "register"
-                      ? "bg-white shadow-sm text-slate-900 dark:bg-slate-900 dark:text-slate-50"
-                      : "text-slate-500 hover:text-slate-700 dark:text-slate-400"
-                  }`}
-                >
-                  Sign up
-                </button>
+                  className={"flex-1 flex items-center justify-center text-center rounded-full px-3 py-1.5 transition"}
+                  children="Sign up"/>
               </div>
             </div>
           </div>
@@ -171,8 +156,8 @@ export default function AuthModal({ open, onClose, onSuccess }) {
               {loading
                 ? "Please wait…"
                 : mode === "login"
-                ? "Log in"
-                : "Create account"}
+                  ? "Log in"
+                  : "Create account"}
             </button>
           </form>
         </div>

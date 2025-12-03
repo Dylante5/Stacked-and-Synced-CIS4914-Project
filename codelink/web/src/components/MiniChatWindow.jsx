@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
+import Button from "./Button";
 
 const SOCKET_URL = "http://localhost:4000";
 
@@ -166,13 +167,12 @@ export default function MiniChatWindow() {
           placeholder="Type a message…"
         />
 
-        <button
+        <Button
           onClick={sendMessage}
           className="inline-flex items-center justify-center rounded-full bg-indigo-600 px-3 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-500 disabled:opacity-40"
           disabled={!text.trim()}
-        >
-          Send
-        </button>
+          children="Send"
+          />
       </div>
     </div>
   );

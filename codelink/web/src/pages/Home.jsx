@@ -105,11 +105,9 @@ export default function Home() {
           </Paragraph>
         </div>
       </div>
-	  <h3>
-		<u>
-			Currently only in Javascript.
-		</u>
-	  </h3>
+	  <Heading level={3}>
+      Currently only in JavaScript.
+	  </Heading>
 
       <Section className="space-y-3" style={{ "boxShadow": "none" }}>
         <Heading level={2}>Quick actions</Heading>
@@ -147,7 +145,7 @@ export default function Home() {
 
           {/* open editor */}
           <Button
-            onClick={goToEditor}
+            onClick={goToProject}
             className="flex flex-col items-start justify-between rounded-xl p-4 text-left hover:shadow-md transition-shadow"
             style={{
               backgroundColor: darkMode ? "#384153" : "#f9f9f9",
