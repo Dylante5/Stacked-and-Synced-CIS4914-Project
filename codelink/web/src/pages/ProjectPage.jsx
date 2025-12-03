@@ -1,11 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "../components/Button";
+import Heading from "../components/Heading";
+import { DarkModeContext } from "../components/DarkModeContext";
+import Paragraph from "../components/Paragraph";
 
 export default function ProjectPage() {
     const navigate = useNavigate();
     const [teamId, setTeamId] = useState("");
     const [projects, setProjects] = useState([]);
     const [err, setErr] = useState("");
+
+    const darkMode = useContext(DarkModeContext);
 
     const rawUser = localStorage.getItem("user");
     let user = null;
@@ -94,12 +100,7 @@ export default function ProjectPage() {
                 Your Projects
             </h1>
 
-            <button
-                onClick={onCreate}
-                className="px-4 py-2 rounded-lg border-2 border-indigo-500 text-indigo-600 mb-6"
-            >
-                + Create New Project
-            </button>
+            <Button onClick={onCreate} children="+ Create New Project" className={"!px-4 !py-2 !rounded-lg !mb-6"}/>
 
             {err && <p className="text-red-600">{err}</p>}
 
@@ -107,14 +108,13 @@ export default function ProjectPage() {
                 {projects.map((p) => (
                     <div
                         key={p.id}
-                        className="bg-white border p-4 rounded-lg cursor-pointer hover:bg-gray-100"
+                        className={"border p-4 rounded-lg cursor-pointer "
+                            + (darkMode ? "bg-gray-800 hover:bg-gray-600" : "bg-white hover:bg-gray-100")}
 						style={{ boxShadow: "3px 3px 10px rgba(0, 0, 0, 0.1)" }}
                         onClick={() => navigate(`/app?projectId=${p.id}`)}
                     >
-                        <h2 className="font-bold text-lg">{p.name}</h2>
-                        <p className="text-sm text-gray-600">
-                            Project ID: {p.id}
-                        </p>
+                        <Heading level={2}>{p.name}</Heading>
+                        <Paragraph>Project ID: {p.id}</Paragraph>
                     </div>
                 ))}
             </div>

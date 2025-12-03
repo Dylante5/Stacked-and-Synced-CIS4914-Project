@@ -1,11 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthModal from "../components/AuthModal";
+import Section from "../components/Section";
+import { DarkModeContext } from "../components/DarkModeContext";
+import Heading from "../components/Heading";
+import Paragraph from "../components/Paragraph";
+import Button from "../components/Button";
 
 export default function Home() {
   const [user, setUser] = useState(null);
   const [authOpen, setAuthOpen] = useState(false);
   const navigate = useNavigate();
+
+  const darkMode = useContext(DarkModeContext);
 
   useEffect(() => {
     const saved = localStorage.getItem("user");
@@ -62,126 +69,146 @@ export default function Home() {
   // NOT LOGGED IN
   if (!user) {
     return (
-      <section className="flex flex-col items-center justify-center h-screen w-full text-center bg-gray-50">
-        <h1 className="text-5xl font-extrabold">Welcome to CodeLink</h1>
-        <p className="mt-4 text-lg max-w-xl text-gray-700">
-          A collaborative coding environment for teams and classrooms.
-        </p>
+      <Section className="flex flex-col items-center justify-center h-screen w-full text-center bg-gray-50">
+        <Heading level={1}>Welcome to CodeLink</Heading>
+        <Paragraph className="mt-4 text-lg max-w-xl">A collaborative coding environment for teams and classrooms.</Paragraph>
 
-        <button
+        <Button
           onClick={() => setAuthOpen(true)}
-          className="mt-8 px-8 py-3 rounded-lg bg-black text-white hover:bg-gray-800"
-        >
-          Log in / Create account
-        </button>
+          className="mt-8 px-8 py-3 rounded-lg hover:bg-gray-800"
+          children="Log In / Create Account"
+        />
 
         <AuthModal
           open={authOpen}
           onClose={() => setAuthOpen(false)}
           onSuccess={handleAuthSuccess}
         />
-      </section>
+      </Section>
     );
   }
 
   // LOGGED IN
   return (
-    <section className="space-y-8 app-surface p-6 max-w-6xl mx-auto mt-10 mb-10 !bg-white" style={{ boxShadow: "3px 3px 10px rgba(0, 0, 0, 0.1)" }}>
+    <Section className="space-y-8 app-surface p-6 max-w-6xl mx-auto mt-10 mb-10">
+      {/*<section  style={{ boxShadow: "3px 3px 10px rgba(0, 0, 0, 0.1)" }}>*/}
       {/* header/greeting */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1
-            className="text-3xl md:text-4xl font-extrabold"
-            style={{ color: "#646cff" }}
-          >
+          <Heading level={1}>
             Welcome back, {firstName}
-          </h1>
-          <p className="mt-2 text-gray-700 max-w-2xl">
+          </Heading>
+          <Paragraph className="mt-2 max-w-2xl">
             This is your CodeLink home base. From here, you can spin up new
             projects, jump into the editor, or manage your teams for real-time
             collaboration.
-          </p>
+          </Paragraph>
         </div>
       </div>
 
-      <section className="space-y-3">
-        <h2 className="text-xl font-semibold" style={{ color: "#646cff" }}>
-          Quick actions
-        </h2>
+      <Section className="space-y-3" style={{ "boxShadow": "none" }}>
+        <Heading level={2}>Quick actions</Heading>
         <div className="grid gap-4 md:grid-cols-3">
           {/* create project */}
-          <button
+          <Button
             onClick={handleCreateProject}
-            className="flex flex-col items-start justify-between rounded-xl border border-dashed border-[#646cff] bg-white p-4 text-left hover:shadow-md transition-shadow"
+            className="flex flex-col items-start justify-between rounded-xl p-4 text-left hover:shadow-md transition-shadow"
+            style={{
+              backgroundColor: darkMode ? "#384153" : "#f9f9f9",
+              color: darkMode ? "white" : "black",
+              border: "1px dashed #646cff00"
+            }}
           >
             <div>
-              <div className="text-sm font-semibold uppercase text-[#646cff]">
+              <Paragraph
+                className="text-sm font-semibold uppercase"
+                style={{ color: darkMode ? "#9ba0ffff" : "#646cff" }}>
                 New Project
-              </div>
+              </Paragraph>
               <div className="mt-1 text-lg font-bold">
                 Create a new project
               </div>
-              <p className="mt-2 text-sm text-gray-600">
+              <Paragraph className="mt-2 text-sm">
                 Start a fresh workspace for your team’s code. You’ll be taken
                 straight to the editor once it’s created.
-              </p>
+              </Paragraph>
             </div>
-            <span className="mt-3 text-sm font-medium text-[#646cff]">
+            <Paragraph
+              className="mt-3 text-sm font-medium"
+              style={{ color: darkMode ? "#9ba0ffff" : "#646cff" }}>
               + Create Project
-            </span>
-          </button>
+            </Paragraph>
+          </Button>
 
           {/* open editor */}
-          <button
+          <Button
             onClick={goToEditor}
-            className="flex flex-col items-start justify-between rounded-xl border bg-white p-4 text-left hover:shadow-md transition-shadow"
+            className="flex flex-col items-start justify-between rounded-xl p-4 text-left hover:shadow-md transition-shadow"
+            style={{
+              backgroundColor: darkMode ? "#384153" : "#f9f9f9",
+              color: darkMode ? "white" : "black",
+              border: "1px solid #646cff00"
+            }}
           >
             <div>
-              <div className="text-sm font-semibold uppercase text-[#646cff]">
+              <Paragraph
+                className="text-sm font-semibold uppercase"
+                style={{ color: darkMode ? "#9ba0ffff" : "#646cff" }}>
                 Projects
-              </div>
+              </Paragraph>
               <div className="mt-1 text-lg font-bold">
                 Open a project
               </div>
-              <p className="mt-2 text-sm text-gray-600">
+              <Paragraph className="mt-2 text-sm">
                 View your existing projects or create a new one to begin coding.
-              </p>
+              </Paragraph>
             </div>
-            <span className="mt-3 text-sm font-medium text-[#646cff]">
+            <Paragraph
+              className="mt-3 text-sm font-medium"
+              style={{ color: darkMode ? "#9ba0ffff" : "#646cff" }}>
               → Go to Projects
-            </span>
-          </button>
+            </Paragraph>
+          </Button>
 
           {/* go to teams */}
-          <button
+          <Button
             onClick={goToTeams}
-            className="flex flex-col items-start justify-between rounded-xl border bg-white p-4 text-left hover:shadow-md transition-shadow"
+            className="flex flex-col items-start justify-between rounded-xl p-4 text-left hover:shadow-md transition-shadow"
+            style={{
+              backgroundColor: darkMode ? "#384153" : "#f9f9f9",
+              color: darkMode ? "white" : "black",
+              border: "1px solid #646cff00"
+            }}
           >
             <div>
-              <div className="text-sm font-semibold uppercase text-[#646cff]">
+              <Paragraph
+                className="text-sm font-semibold uppercase"
+                style={{ color: darkMode ? "#9ba0ffff" : "#646cff" }}>
                 Collaboration
-              </div>
+              </Paragraph>
               <div className="mt-1 text-lg font-bold">
                 Manage your teams
               </div>
-              <p className="mt-2 text-sm text-gray-600">
+              <Paragraph className="mt-2 text-sm">
                 Search for existing teams, create a new one, or join your
                 classmates and coworkers for group projects.
-              </p>
+              </Paragraph>
             </div>
-            <span className="mt-3 text-sm font-medium text-[#646cff]">
+            <Paragraph
+              className="mt-3 text-sm font-medium"
+              style={{ color: darkMode ? "#9ba0ffff" : "#646cff" }}>
               → Go to Teams
-            </span>
-          </button>
+            </Paragraph>
+          </Button>
         </div>
-      </section>
+      </Section>
 
-      {/* how to use CodeLink */}
-      <section className="space-y-3">
-        <h2 className="text-xl font-semibold" style={{ color: "#646cff" }}>
-          How to use CodeLink
-        </h2>
-        <ol className="list-decimal list-inside space-y-2 text-sm md:text-base text-gray-800">
+      {/* How to use CodeLink */}
+        <Section className="space-y-3" style={{ "boxShadow": "none" }}>
+          <Heading level={2}>
+            How to use CodeLink
+          </Heading>
+        <ol className={"list-decimal list-inside space-y-2 text-sm md:text-base " + (darkMode ? "text-gray-100" : "text-gray-800")}>
           <li>
             <strong>Create or join a team.</strong>{" "}
             Go to the <span className="font-semibold">Teams</span> page to
@@ -193,16 +220,16 @@ export default function Home() {
             <span className="font-semibold">“Create New Project”</span> above to
             spin up a new workspace that your team can share.
           </li>
-		  <li>
+          <li>
             <strong>Chat with your team.</strong> Use the{" "}
             <span className="font-semibold">“Chat”</span> above to
-            start talking to your teammates in real time, or press the {" "} 
-			<span className="font-semibold">"Chat"</span> button in the bottom right of the web app.
+            start talking to your teammates in real time, or press the {" "}
+            <span className="font-semibold">"Chat"</span> button in the bottom right of the web app.
           </li>
           <li>
             <strong>Open the editor.</strong> On the{" "}
             <span className="font-semibold">Project</span> page, you’ll see the option
-			to click one of your projects, which will bring you to the app page.
+            to click one of your projects, which will bring you to the app page.
           </li>
           <li>
             <strong>Collaborate in real time.</strong> When multiple users are
@@ -215,13 +242,13 @@ export default function Home() {
             place, and reduce context switching.
           </li>
         </ol>
-      </section>
+      </Section>
 
       {/* footer */}
-      <section className="text-xs text-gray-500">
+      <section className={"text-xs " + (darkMode ? "text-gray-100" : "text-gray-800")}>
         Tip: You can always come back to this homepage via the{" "}
         <span className="font-semibold">Home</span> tab in the top navigation.
       </section>
-    </section>
+    </Section>
   );
 }

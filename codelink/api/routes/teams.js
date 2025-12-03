@@ -43,7 +43,7 @@ router.post("/", (req, res) => {
       if (String(err).includes("UNIQUE")) {
         return res.status(409).json({ error: "Team name already exists" });
       }
-      return res.status(500).json({ error: "DB error" });
+      return res.status(500).json({ error: String(err) });
     }
 	
 	const teamId = this.lastID;
