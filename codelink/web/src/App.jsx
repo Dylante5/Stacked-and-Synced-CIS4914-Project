@@ -75,20 +75,6 @@ export default function App() {
               Teams
             </Link>
 
-            <Link
-              to="/chat"
-              className="hover:underline"
-              style={{
-                color: "#646cff",
-                opacity: user ? 1 : 0.5,
-                pointerEvents: user ? "auto" : "none",
-                cursor: user ? "pointer" : "not-allowed",
-              }}
-            >
-              Chat
-            </Link>
-
-
             {/* Auth button */}
             {!user ? (
               <button

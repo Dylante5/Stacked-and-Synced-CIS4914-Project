@@ -86,7 +86,7 @@ export default function Home() {
 
   // LOGGED IN
   return (
-    <section className="space-y-8 app-surface p-6 max-w-6xl mx-auto mt-10 mb-10 !bg-white" style={{ boxShadow: "3px 3px 10px rgba(0, 0, 0, 0.1)" }}>
+    <section className="rounded-xl space-y-8 app-surface p-6 max-w-6xl mx-auto mt-10 mb-10 !bg-white" style={{ boxShadow: "3px 3px 10px rgba(0, 0, 0, 0.1)" }}>
       {/* header/greeting */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
