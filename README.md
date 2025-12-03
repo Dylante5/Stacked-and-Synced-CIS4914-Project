@@ -98,7 +98,13 @@ cd Stacked-and-Synced-CIS4914-Project/codelink
 
 #### Frontend
 ```bash
-cd ../web
+cd ./web
+npm install
+```
+
+#### Backend
+```bash
+cd ../api
 npm install
 ```
 
@@ -113,7 +119,7 @@ npm run dev
 #### Start backend
 ```bash
 cd ../api
-node server.js
+npm run dev
 ```
 
 ### 4. Run Docker
@@ -171,21 +177,29 @@ codelink/			      # codelink project folder
 │   ├── src/                          # main React application
 │   │   ├── assets/                   # images/static assets
 │   │   ├── components/               # reusable UI components
-│   │   │   ├── FloatingChatWidget.jsx
-│   │   │   ├── MiniChatWindow.jsx
 │   │   │   ├── AuthModal.jsx
+│   │   │   ├── Button.jsx
+│   │   │   ├── DarkModeContext.jsx
+│   │   │   ├── Editor.css
 │   │   │   ├── Editor.jsx
 |   |   |   ├── FileTree.jsx
+│   │   │   ├── FloatingChatWidget.jsx
+|   |   |   ├── Heading.jsx
+|   |   |   ├── Input.jsx
+|   |   |   ├── Label.jsx
+│   │   │   ├── MiniChatWindow.jsx
+│   │   │   ├── Paragraph.jsx
+│   │   │   ├── Section.jsx
 │   │   │   └── Terminal.jsx
 │   │   │
-│   │   ├── Functions/                # logical helpers/utilities
-│   │   │   └── FileFunctions.jsx
+│   │   ├── functions/                # logical helpers/utilities
+│   │   │   └── EditorFunctions.jsx
 │   │   │
 │   │   ├── pages/                    # route-level pages
-│   │   │   ├── Home.jsx
-│   │   │   ├── EditorPage.jsx
-│   │   │   ├── ProjectPage.jsx
 │   │   │   ├── ChatPage.jsx
+│   │   │   ├── EditorPage.jsx
+│   │   │   ├── Home.jsx
+│   │   │   ├── ProjectPage.jsx
 │   │   │   └── TeamsPage.jsx
 │   │   │
 │   │   ├── App.jsx                   # layout and routing wrapper
