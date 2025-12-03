@@ -12,7 +12,7 @@ export default function App() {
 
   const [user, setUser] = useState(null);
   const [showAuth, setShowAuth] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode"));
 
   useEffect(() => {
     const saved = localStorage.getItem("user");
@@ -48,7 +48,7 @@ export default function App() {
                 CodeLink
               </Link>
               <Button
-                onClick={() => setDarkMode(!darkMode)}
+                onClick={() => {setDarkMode(!darkMode); localStorage.setItem("darkMode", !darkMode);}}
                 style={{
                   marginLeft: "8px",
                   padding: "4px",
