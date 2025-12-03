@@ -28,6 +28,7 @@ export default function Home() {
     setUser(u);
     setAuthOpen(false);
     navigate("/");
+    window.location.reload();
   };
 
   const handleCreateProject = async () => {

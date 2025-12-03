@@ -23,6 +23,8 @@ export default function App() {
     localStorage.removeItem("user");
     setUser(null);
     navigate("/");
+    window.location.reload();
+    console.log("here");
   };
 
   const isEditorRoute =
@@ -124,7 +126,8 @@ export default function App() {
             onSuccess={(u) => {
               setUser(u);
               setShowAuth(false);
-              navigate("/project");
+              navigate("/");
+              window.location.reload();
             }}
           />
         )}
