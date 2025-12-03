@@ -61,7 +61,7 @@ export default function Home() {
     }
   };
 
-  const goToEditor = () => navigate("/app");
+  const goToProject = () => navigate("/project");
   const goToTeams = () => navigate("/teams");
 
   const firstName = user?.firstName || "there";
@@ -105,6 +105,11 @@ export default function Home() {
           </Paragraph>
         </div>
       </div>
+	  <h3>
+		<u>
+			Currently only in Javascript.
+		</u>
+	  </h3>
 
       <Section className="space-y-3" style={{ "boxShadow": "none" }}>
         <Heading level={2}>Quick actions</Heading>

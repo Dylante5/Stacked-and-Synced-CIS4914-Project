@@ -97,11 +97,10 @@ export default function MiniChatWindow() {
   const typingList = Object.keys(typingUsers).filter(Boolean).join(", ");
 
   return (
-    <div className="flex flex-col h-full">
-
+    <div className="flex h-full flex-col text-slate-900">
       {/* Team Selector */}
       <select
-        className="text-black mb-2 border rounded p-1"
+        className="mb-2 w-full rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs text-slate-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
         value={teamId}
         onChange={(e) => setTeamId(e.target.value)}
       >
@@ -114,18 +113,37 @@ export default function MiniChatWindow() {
       </select>
 
       {/* Messages List */}
-      <div className="flex-1 overflow-y-auto border rounded p-2 bg-gray-50 text-black mb-2">
+      <div className="flex-1 overflow-y-auto rounded-xl bg-slate-100 p-2 mb-2">
         {messages.map((m, i) => {
+          const isMe = m.userName === userName;
           const prev = messages[i - 1];
-          const showUser = !prev || prev.userName !== m.userName;
+          const showUser = !isMe && (!prev || prev.userName !== m.userName);
+          const key = m.id ?? `${m.userName}-${i}`;
 
           return (
-            <div key={m.id} className="mb-1 text-sm">
-              {showUser && (
-                <div className="text-xs text-gray-500">{m.userName}</div>
-              )}
-              <div className="inline-block bg-gray-200 px-2 py-1 rounded">
-                {m.message}
+            <div
+              key={key}
+              className={`mb-2 flex ${isMe ? "justify-end" : "justify-start"}`}
+            >
+              <div className="max-w-[80%] space-y-1 text-xs">
+                {showUser && (
+                  <div className="flex items-center gap-2 text-[11px] text-slate-500">
+                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-slate-300 text-[9px] font-semibold uppercase">
+                      {m.userName?.[0] ?? "?"}
+                    </div>
+                    <span>{m.userName}</span>
+                  </div>
+                )}
+
+                <div
+                  className={`rounded-2xl px-3 py-2 text-sm shadow-sm ${
+                    isMe
+                      ? "bg-indigo-500 text-white"
+                      : "border border-slate-200 bg-white text-slate-900"
+                  }`}
+                >
+                  {m.message}
+                </div>
               </div>
             </div>
           );
@@ -134,29 +152,24 @@ export default function MiniChatWindow() {
       </div>
 
       {/* Typing indicator */}
-      <div className="h-4 text-xs text-black mb-2">
-        {typingList ? `${typingList} is typing...` : ""}
+      <div className="mb-2 h-4 text-[11px] text-slate-500">
+        {typingList ? `${typingList} is typing…` : ""}
       </div>
 
       {/* Input Row */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-2 py-1 shadow-sm">
         <input
-          className="flex-1 border rounded px-2 py-1 text-black"
+          className="flex-1 border-none bg-transparent px-1 py-1 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none"
           value={text}
           onChange={handleTyping}
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+          placeholder="Type a message…"
         />
 
         <button
           onClick={sendMessage}
-          className="px-3 py-1 rounded text-white whitespace-nowrap"
-          style={{ backgroundColor: "#646cff" }}
-          onMouseOver={(e) =>
-            (e.currentTarget.style.backgroundColor = "#535bf2")
-          }
-          onMouseOut={(e) =>
-            (e.currentTarget.style.backgroundColor = "#646cff")
-          }
+          className="inline-flex items-center justify-center rounded-full bg-indigo-600 px-3 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-500 disabled:opacity-40"
+          disabled={!text.trim()}
         >
           Send
         </button>
@@ -164,4 +177,3 @@ export default function MiniChatWindow() {
     </div>
   );
 }
-
