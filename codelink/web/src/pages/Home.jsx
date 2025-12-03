@@ -54,7 +54,7 @@ export default function Home() {
     }
   };
 
-  const goToEditor = () => navigate("/app");
+  const goToProject = () => navigate("/project");
   const goToTeams = () => navigate("/teams");
 
   const firstName = user?.firstName || "there";
@@ -103,6 +103,11 @@ export default function Home() {
           </p>
         </div>
       </div>
+	  <h3>
+		<u>
+			Currently only in Javascript.
+		</u>
+	  </h3>
 
       <section className="space-y-3">
         <h2 className="text-xl font-semibold" style={{ color: "#646cff" }}>
@@ -111,14 +116,15 @@ export default function Home() {
         <div className="grid gap-4 md:grid-cols-3">
           {/* create project */}
           <button
+			style={{ boxShadow: "3px 3px 10px rgba(0, 0, 0, 0.2)" }}
             onClick={handleCreateProject}
-            className="flex flex-col items-start justify-between rounded-xl border border-dashed border-[#646cff] bg-white p-4 text-left hover:shadow-md transition-shadow"
+            className="flex flex-col items-start justify-between rounded-xl border border-dashed border-[#646cff] bg-white p-4 text-left hover:shadow-2xl transition-shadow"
           >
             <div>
               <div className="text-sm font-semibold uppercase text-[#646cff]">
                 New Project
               </div>
-              <div className="mt-1 text-lg font-bold">
+              <div className="mt-1 text-lg font-bold text-white">
                 Create a new project
               </div>
               <p className="mt-2 text-sm text-gray-600">
@@ -133,14 +139,15 @@ export default function Home() {
 
           {/* open editor */}
           <button
-            onClick={goToEditor}
-            className="flex flex-col items-start justify-between rounded-xl border bg-white p-4 text-left hover:shadow-md transition-shadow"
+			style={{ boxShadow: "3px 3px 10px rgba(0, 0, 0, 0.2)" }}
+            onClick={goToProject}
+            className="flex flex-col items-start justify-between rounded-xl border bg-white p-4 text-left hover:shadow-2xl transition-shadow"
           >
             <div>
               <div className="text-sm font-semibold uppercase text-[#646cff]">
                 Projects
               </div>
-              <div className="mt-1 text-lg font-bold">
+              <div className="mt-1 text-lg font-bold text-white">
                 Open a project
               </div>
               <p className="mt-2 text-sm text-gray-600">
@@ -154,14 +161,15 @@ export default function Home() {
 
           {/* go to teams */}
           <button
+			style={{ boxShadow: "3px 3px 10px rgba(0, 0, 0, 0.2)" }}
             onClick={goToTeams}
-            className="flex flex-col items-start justify-between rounded-xl border bg-white p-4 text-left hover:shadow-md transition-shadow"
+            className="flex flex-col items-start justify-between rounded-xl border bg-white p-4 text-left hover:shadow-2xl transition-shadow"
           >
             <div>
               <div className="text-sm font-semibold uppercase text-[#646cff]">
                 Collaboration
               </div>
-              <div className="mt-1 text-lg font-bold">
+              <div className="mt-1 text-lg font-bold text-white">
                 Manage your teams
               </div>
               <p className="mt-2 text-sm text-gray-600">
@@ -216,8 +224,6 @@ export default function Home() {
           </li>
         </ol>
       </section>
-
-      {/* footer */}
       <section className="text-xs text-gray-500">
         Tip: You can always come back to this homepage via the{" "}
         <span className="font-semibold">Home</span> tab in the top navigation.

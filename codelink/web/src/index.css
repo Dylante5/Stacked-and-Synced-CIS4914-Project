@@ -1,10 +1,15 @@
 @import "tailwindcss";
 
-:root, html, body, #root {
+:root,
+html,
+body,
+#root {
   height: 100%;
   width: 100%;
 }
-html, body {
+
+html,
+body {
   margin: 0;
   padding: 0;
 }
@@ -13,27 +18,56 @@ html, body {
 *::before,
 *::after {
   box-sizing: border-box;
+  border-color: lightgray;
 }
 
+/* global light theme */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --cl-primary: #646cff;
+
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-  font-synthesis: none;
+
+
+  color: #0f172a;
+  background-color: #f3f4f6;
+
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-a { font-weight: 500; color: #646cff; text-decoration: inherit; }
-a:hover { color: #535bf2; }
+a {
+  font-weight: 500;
+  color: var(--cl-primary);
+  text-decoration: none;
+}
 
-.app-surface { background-color: #e5e6e5; }
+a:hover {
+  color: #535bf2;
+}
 
-h1 { font-size: 3.2em; line-height: 1.1; color: #646cff; }
+.app-surface {
+  background-color: #ffffff;
+}
+
+.app-header {
+  background-color: #ffffff;
+}
+
+button {
+  font-family: inherit;
+  border-radius: 0.5rem;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 2px solid var(--cl-primary);
+  outline-offset: 2px;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -47,9 +81,3 @@ button {
 }
 button:hover { border-color: #646cff; }
 button:focus, button:focus-visible { outline: 4px auto -webkit-focus-ring-color; }
-
-@media (prefers-color-scheme: light) {
-  :root { color: #213547; background-color: #ffffff; }
-  a:hover { color: #747bff; }
-  button { background-color: #f9f9f9; }
-}
