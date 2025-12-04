@@ -21,6 +21,7 @@ export default function App() {
 
   const onLogout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("darkMode");
     setUser(null);
     navigate("/");
     window.location.reload();
