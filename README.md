@@ -20,7 +20,6 @@ Designed for both software teams and computer science education, it reduces tool
 - Run code using Docker sandbox
 - Multi-language compiler/interpreter interface
 - GitHub version tracking and integration
-- Kanban-style project planning dashboard
 - Built-in lightweight chat and comment system
 
 ---
