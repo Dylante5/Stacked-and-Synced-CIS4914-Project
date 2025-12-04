@@ -225,7 +225,7 @@ codelink/			      # codelink project folder
 - **Dylan Everett** — Project Manager
 - **Mark Burnette** — Scrum Master / Frontend Developer
 - **Matthew Golden** — Frontend Developer
-- **Yan Tong** — Backend Developer / Testing & Debugging
+- **Yan Tong** — Frontend Developer / Testing & Debugging
 
 ---
 
