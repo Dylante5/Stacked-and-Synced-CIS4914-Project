@@ -1,9 +1,9 @@
 import * as monaco from "monaco-editor";
-export function Download(text) {
+export function Download(text, name) {
     var blob = new Blob([text], { type: 'text/plain' });
     var link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = 'CodeLink.txt';
+    link.download = name + ".js";
     link.click();
 }
 
