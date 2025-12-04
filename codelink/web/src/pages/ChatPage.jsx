@@ -4,7 +4,7 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import { DarkModeContext } from "../components/DarkModeContext";
 
-const SOCKET_URL = "http://localhost:4000"; // TODO: don't hardcode
+const SOCKET_URL = "http://localhost:4000";
 
 export default function Chat() {
     const [socket, setSocket] = useState(null);
@@ -143,7 +143,7 @@ export default function Chat() {
                     onChange={(e) => setTeamId(Number(e.target.value))} // ensure numeric room ID
                 >
                     {teams.map((team) => (
-                        <option key={team.id} value={team.id}>
+                        <option key={team.id} value={team.id} className={darkMode ? "bg-gray-800 text-gray-100" : "bg-white text-gray-800"}>
                             {team.name}
                         </option>
                     ))}
