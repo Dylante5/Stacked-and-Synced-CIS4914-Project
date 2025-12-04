@@ -12,12 +12,19 @@ export default function App() {
 
   const [user, setUser] = useState(null);
   const [showAuth, setShowAuth] = useState(false);
-  const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode"));
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem("darkMode");
+    return saved !== null ? JSON.parse(saved) : false; // default to light mode
+  });
 
   useEffect(() => {
     const saved = localStorage.getItem("user");
     if (saved) setUser(JSON.parse(saved));
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("darkMode", JSON.stringify(darkMode));
+  }, [darkMode]);
 
   const onLogout = () => {
     localStorage.removeItem("user");
@@ -49,7 +56,7 @@ export default function App() {
                 CodeLink
               </Link>
               <Button
-                onClick={() => {setDarkMode(!darkMode); localStorage.setItem("darkMode", !darkMode);}}
+                onClick={() => {setDarkMode(!darkMode)}}
                 style={{
                   marginLeft: "8px",
                   padding: "4px",
